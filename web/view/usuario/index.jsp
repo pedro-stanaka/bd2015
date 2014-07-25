@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="/view/include/favicon.jsp"%>
+        <%@include file="/view/include/head.jsp"%>
         <title>[BD 2014] Usuários</title>
     </head>
     <body>
@@ -41,5 +41,7 @@
         <h1><a href="${pageContext.servletContext.contextPath}/usuario/create">Cadastrar usuário</a></h1>
 
         <h1><a href="${pageContext.servletContext.contextPath}/">Home page</a></h1>
+        
+        <%@include file="/view/include/scripts.jsp"%>
     </body>
 </html>
