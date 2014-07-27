@@ -1,13 +1,21 @@
 package dao;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.util.List;
 
-public interface DAO<T> {
-    
-    public void create(T t);
-    public T read(Integer id);
-    public void update(T t);
-    public void delete(Integer id);
+public abstract class DAO<T> {
 
-    public List<T> all();
+    protected Connection connection;
+
+    DAO(Connection connection) {
+        this.connection = connection;
+    }
+
+    public abstract void create(T t) throws SQLException;
+    public abstract T read(Integer id) throws SQLException;
+    public abstract void update(T t) throws SQLException;
+    public abstract void delete(Integer id) throws SQLException;
+
+    public abstract List<T> all() throws SQLException;
 }

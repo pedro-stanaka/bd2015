@@ -12,10 +12,10 @@
         <form action="${pageContext.servletContext.contextPath}/usuario/update" method="POST">
             <label>ID:</label><br>
             <input type="text" name="id_disabled" value="${usuario.id}" disabled><br><br>
-            
+
             <label>Login:</label><br>
             <input type="text" name="login" value="${usuario.login}"><br><br>
-            
+
             <label>Senha:</label><br>
             <input type="password" name="senha" value="${usuario.senha}"><br><br>
 

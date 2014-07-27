@@ -4,9 +4,17 @@
 <html>
     <head>
         <%@include file="/view/include/head.jsp"%>
-        <title>[BD 2014] Início</title>
+        <title>[BD 2014] Login</title>
     </head>
     <body>
-        <h1><a href="${pageContext.servletContext.contextPath}/usuario">Usuários</a></h1>
+        <form action="${pageContext.servletContext.contextPath}/login" method="POST">
+            <label>Login:</label><br>
+            <input type="text" name="login"><br><br>
+
+            <label>Senha:</label><br>
+            <input type="password" name="senha"><br><br>
+
+            <input type="submit" value="Login">
+        </form>
     </body>
 </html>

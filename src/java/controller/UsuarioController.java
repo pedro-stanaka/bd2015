@@ -1,9 +1,11 @@
 package controller;
 
-import dao.UsuarioDAO;
 import dao.DAO;
+import dao.DAOFactory;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -31,72 +33,112 @@ public class UsuarioController extends HttpServlet {
 
                 break;
             case "/usuario/read":
-                dao = new UsuarioDAO();
-                
-                request.setAttribute("usuario", dao.read(Integer.parseInt(request.getParameter("id"))));
-                
-                dispatcher = request.getRequestDispatcher("/view/usuario/read.jsp");
-                dispatcher.forward(request, response);
-                
-                break;
             case "/usuario/update":
-                dao = new UsuarioDAO();
+                try (DAOFactory daoFactory = new DAOFactory();) {
+                    dao = daoFactory.getUsuarioDAO();
 
-                request.setAttribute("usuario", dao.read(Integer.parseInt(request.getParameter("id"))));
+                    Usuario usuario = (Usuario) dao.read(Integer.parseInt(request.getParameter("id")));
+                    request.setAttribute("usuario", usuario);
 
-                dispatcher = request.getRequestDispatcher("/view/usuario/update.jsp");
-                dispatcher.forward(request, response);
+                    dispatcher = request.getRequestDispatcher("/view" + request.getServletPath() + ".jsp");
+                    dispatcher.forward(request, response);
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/usuario");
+                }
 
                 break;
             case "/usuario/delete":
-                dao = new UsuarioDAO();
+                try (DAOFactory daoFactory = new DAOFactory();) {
+                    dao = daoFactory.getUsuarioDAO();
 
-                dao.delete(Integer.parseInt(request.getParameter("id")));
+                    dao.delete(Integer.parseInt(request.getParameter("id")));
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
 
                 break;
             case "/usuario":
-                dao = new UsuarioDAO();
+                try (DAOFactory daoFactory = new DAOFactory();) {
+                    dao = daoFactory.getUsuarioDAO();
 
-                request.setAttribute("usuarioList", dao.all());
+                    List<Usuario> usuarioList = dao.all();
+                    request.setAttribute("usuarioList", usuarioList);
 
-                dispatcher = request.getRequestDispatcher("/view/usuario/index.jsp");
-                dispatcher.forward(request, response);
+                    dispatcher = request.getRequestDispatcher("/view/usuario/index.jsp");
+                    dispatcher.forward(request, response);
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/usuario");
+                }
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DAO dao;
-        Usuario usuario;
+        Usuario usuario = new Usuario();
 
         switch (request.getServletPath()) {
             case "/usuario/create":
-                dao = new UsuarioDAO();
-                usuario = new Usuario();
-
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
                 usuario.setNascimento(Date.valueOf(request.getParameter("nascimento")));
 
-                dao.create(usuario);
+                try (DAOFactory daoFactory = new DAOFactory();) {
+                    dao = daoFactory.getUsuarioDAO();
+
+                    dao.create(usuario);
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
 
                 break;
             case "/usuario/update":
-                dao = new UsuarioDAO();
-                usuario = new Usuario();
-
                 usuario.setId(Integer.parseInt(request.getParameter("id")));
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
                 usuario.setNascimento(Date.valueOf(request.getParameter("nascimento")));
 
-                dao.update(usuario);
+                try (DAOFactory daoFactory = new DAOFactory();) {
+                    dao = daoFactory.getUsuarioDAO();
+
+                    dao.update(usuario);
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
+
+                response.sendRedirect(request.getContextPath() + "/usuario");
+
+                break;
+            case "/usuario/delete":
+                String[] usuarios = request.getParameterValues("delete");
+
+                try (DAOFactory daoFactory = new DAOFactory();) {
+                    dao = daoFactory.getUsuarioDAO();
+
+                    try {
+                        daoFactory.beginTransaction();
+
+                        for (int i = 0; i < usuarios.length; ++i) {
+                            dao.delete(Integer.parseInt(usuarios[i]));
+                        }
+
+                        daoFactory.commitTransaction();
+                        daoFactory.endTransaction();
+                    } catch (SQLException ex) {
+                        System.err.println(ex.getMessage());
+                        daoFactory.rollbackTransaction();
+                    }
+                } catch (SQLException ex) {
+                    System.err.println(ex.getMessage());
+                }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
 

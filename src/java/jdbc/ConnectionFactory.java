@@ -12,13 +12,13 @@ import java.util.logging.Logger;
 public class ConnectionFactory {
 
     private static ConnectionFactory instance = null;
-    
+
     private String dbHost;
     private String dbPort;
     private String dbName;
     private String dbUser;
     private String dbPassword;
-    
+
     private ConnectionFactory() {
     }
 
@@ -56,7 +56,7 @@ public class ConnectionFactory {
         try {
             // Registra o driver na JVM.
             Class.forName("org.postgresql.Driver");
-            
+
             // Lê as propriedades do banco de dados.
             readProperties();
 

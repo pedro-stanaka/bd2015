@@ -12,10 +12,10 @@
         <form action="${pageContext.servletContext.contextPath}/usuario/create" method="POST">
             <label>Login:</label><br>
             <input type="text" name="login"><br><br>
-            
+
             <label>Senha:</label><br>
             <input type="password" name="senha"><br><br>
-            
+
             <label>Nome:</label><br>
             <input type="text" name="nome"><br><br>
 
