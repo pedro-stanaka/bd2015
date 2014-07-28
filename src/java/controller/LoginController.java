@@ -27,10 +27,10 @@ public class LoginController extends HttpServlet {
             case "":
                 session = request.getSession(false);
 
-                if (session == null) {
-                    dispatcher = request.getRequestDispatcher("/index.jsp");
-                } else {
+                if (session != null && session.getAttribute("usuario") != null) {
                     dispatcher = request.getRequestDispatcher("/welcome.jsp");
+                } else {
+                    dispatcher = request.getRequestDispatcher("/index.jsp");
                 }
 
                 dispatcher.forward(request, response);
