@@ -141,8 +141,6 @@ public class UsuarioController extends HttpServlet {
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
-
-                break;
         }
     }
 }

@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="/view/include/head.jsp"%>
+        <%@include file="/view/include/favicon.jsp"%>
         <title>[BD 2014] Login</title>
     </head>
     <body>
