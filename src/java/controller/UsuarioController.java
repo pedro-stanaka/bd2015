@@ -102,9 +102,12 @@ public class UsuarioController extends HttpServlet {
             case "/usuario/update":
                 usuario.setId(Integer.parseInt(request.getParameter("id")));
                 usuario.setLogin(request.getParameter("login"));
-                usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
                 usuario.setNascimento(Date.valueOf(request.getParameter("nascimento")));
+
+                if (!request.getParameter("senha").isEmpty()) {
+                    usuario.setSenha(request.getParameter("senha"));
+                }
 
                 try (DAOFactory daoFactory = new DAOFactory();) {
                     dao = daoFactory.getUsuarioDAO();

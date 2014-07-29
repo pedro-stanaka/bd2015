@@ -14,8 +14,9 @@ import model.Usuario;
 public class UsuarioDAO extends DAO<Usuario> {
 
     private static final String createQuery = "INSERT INTO usuario(login, senha, nome, nascimento) VALUES(?, md5(?), ?, ?);";
-    private static final String readQuery = "SELECT login, senha, nome, nascimento FROM usuario WHERE id = ?;";
-    private static final String updateQuery = "UPDATE usuario SET login = ?, senha = ?, nome = ?, nascimento = ? WHERE id = ?;";
+    private static final String readQuery = "SELECT login, nome, nascimento FROM usuario WHERE id = ?;";
+    private static final String updateQuery = "UPDATE usuario SET login = ?, nome = ?, nascimento = ? WHERE id = ?;";
+    private static final String updateWithPasswordQuery = "UPDATE usuario SET login = ?, nome = ?, nascimento = ?, senha = md5(?) WHERE id = ?;";
     private static final String deleteQuery = "DELETE FROM usuario WHERE id = ?;";
     private static final String allQuery = "SELECT * FROM usuario;";
     private static final String authenticateQuery = "SELECT id, senha, nome, nascimento FROM usuario WHERE login = ?;";
@@ -47,7 +48,6 @@ public class UsuarioDAO extends DAO<Usuario> {
                 if (result.next()) {
                     usuario.setId(id);
                     usuario.setLogin(result.getString("login"));
-                    usuario.setSenha(result.getString("senha"));
                     usuario.setNome(result.getString("nome"));
                     usuario.setNascimento(result.getDate("nascimento"));
                 } else {
@@ -61,12 +61,25 @@ public class UsuarioDAO extends DAO<Usuario> {
 
     @Override
     public void update(Usuario usuario) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(updateQuery);) {
+        String query;
+
+        if (usuario.getSenha() == null) {
+            query = updateQuery;
+        } else {
+            query = updateWithPasswordQuery;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(query);) {
             statement.setString(1, usuario.getLogin());
-            statement.setString(2, usuario.getSenha());
-            statement.setString(3, usuario.getNome());
-            statement.setDate(4, usuario.getNascimento());
-            statement.setInt(5, usuario.getId());
+            statement.setString(2, usuario.getNome());
+            statement.setDate(3, usuario.getNascimento());
+
+            if (usuario.getSenha() != null) {
+                statement.setString(4, usuario.getSenha());
+                statement.setInt(5, usuario.getId());
+            } else {
+                statement.setInt(4, usuario.getId());
+            }
 
             if (statement.executeUpdate() < 1) {
                 throw new SQLException("Falha ao editar: usuário não encontrado.");
