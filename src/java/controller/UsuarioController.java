@@ -1,5 +1,6 @@
 package controller;
 
+import com.google.gson.Gson;
 import dao.DAO;
 import dao.DAOFactory;
 import java.io.IOException;
@@ -12,6 +13,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import model.Usuario;
 
 @WebServlet(urlPatterns = {"/usuario/create",
@@ -33,6 +35,21 @@ public class UsuarioController extends HttpServlet {
 
                 break;
             case "/usuario/read":
+                try (DAOFactory daoFactory = new DAOFactory();) {
+                    dao = daoFactory.getUsuarioDAO();
+
+                    Usuario usuario = (Usuario) dao.read(Integer.parseInt(request.getParameter("id")));
+
+                    Gson gson = new Gson();
+                    String json = gson.toJson(usuario);
+
+                    response.getOutputStream().print(json);
+                } catch (SQLException ex) {
+                    request.getSession().setAttribute("erro", ex.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/usuario");
+                }
+
+                break;
             case "/usuario/update":
                 try (DAOFactory daoFactory = new DAOFactory();) {
                     dao = daoFactory.getUsuarioDAO();
@@ -43,7 +60,7 @@ public class UsuarioController extends HttpServlet {
                     dispatcher = request.getRequestDispatcher("/view" + request.getServletPath() + ".jsp");
                     dispatcher.forward(request, response);
                 } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
+                    request.getSession().setAttribute("erro", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario");
                 }
 
@@ -54,7 +71,7 @@ public class UsuarioController extends HttpServlet {
 
                     dao.delete(Integer.parseInt(request.getParameter("id")));
                 } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
+                    request.getSession().setAttribute("erro", ex.getMessage());
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
@@ -66,13 +83,12 @@ public class UsuarioController extends HttpServlet {
 
                     List<Usuario> usuarioList = dao.all();
                     request.setAttribute("usuarioList", usuarioList);
-
-                    dispatcher = request.getRequestDispatcher("/view/usuario/index.jsp");
-                    dispatcher.forward(request, response);
                 } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
-                    response.sendRedirect(request.getContextPath() + "/usuario");
+                    request.getSession().setAttribute("erro", ex.getMessage());
                 }
+
+                dispatcher = request.getRequestDispatcher("/view/usuario/index.jsp");
+                dispatcher.forward(request, response);
         }
     }
 
@@ -80,6 +96,7 @@ public class UsuarioController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DAO dao;
         Usuario usuario = new Usuario();
+        HttpSession session = request.getSession();
 
         switch (request.getServletPath()) {
             case "/usuario/create":
@@ -93,7 +110,7 @@ public class UsuarioController extends HttpServlet {
 
                     dao.create(usuario);
                 } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
+                    session.setAttribute("erro", ex.getMessage());
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
@@ -114,7 +131,7 @@ public class UsuarioController extends HttpServlet {
 
                     dao.update(usuario);
                 } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
+                    session.setAttribute("erro", ex.getMessage());
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
@@ -136,11 +153,13 @@ public class UsuarioController extends HttpServlet {
                         daoFactory.commitTransaction();
                         daoFactory.endTransaction();
                     } catch (SQLException ex) {
-                        System.err.println(ex.getMessage());
+                        session.setAttribute("erro", ex.getMessage());
                         daoFactory.rollbackTransaction();
                     }
                 } catch (SQLException ex) {
-                    System.err.println(ex.getMessage());
+                    String erro = (String) session.getAttribute("erro");
+                    erro += "\n" + ex.getMessage();
+                    session.setAttribute("erro", erro);
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");

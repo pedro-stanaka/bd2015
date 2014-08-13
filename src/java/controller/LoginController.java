@@ -51,6 +51,7 @@ public class LoginController extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         UsuarioDAO dao;
         Usuario usuario = new Usuario();
+        HttpSession session = request.getSession();
 
         switch (request.getServletPath()) {
             case "/login":
@@ -62,10 +63,9 @@ public class LoginController extends HttpServlet {
 
                     dao.authenticate(usuario);
 
-                    HttpSession session = request.getSession();
                     session.setAttribute("usuario", usuario);
                 } catch (SQLException | SecurityException ex) {
-                    System.err.println(ex.getMessage());
+                    session.setAttribute("erro", ex.getMessage());
                 }
 
                 response.sendRedirect(request.getContextPath() + "/");

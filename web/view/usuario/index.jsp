@@ -1,57 +1,134 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:if test="${empty sessionScope.usuario}">
-    <c:redirect context="${pageContext.servletContext.contextPath}" url="/"/>
-</c:if>
+<%@taglib tagdir="/WEB-INF/tags" prefix="session"%>
+<session:usuario context="${pageContext.servletContext.contextPath}"/>
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="/view/include/favicon.jsp"%>
+        <%@include file="/view/include/head.jsp"%>
+        <link href="${pageContext.servletContext.contextPath}/assets/css/navbar.css" rel="stylesheet">
+        <link href="${pageContext.servletContext.contextPath}/assets/css/usuario_index.css" rel="stylesheet">
         <title>[BD 2014] Usuários</title>
     </head>
     <body>
-        <h1>Lista de usuários</h1>
+        <%@include file="/view/include/navbar.jsp"%>
 
-        <form action="${pageContext.servletContext.contextPath}/usuario/delete" method="POST">
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Login</th>
-                        <th colspan="2">Ação</th>
-                        <th></th>
-                    </tr>
-                </thead>
+        <div class="container">
+            <div class="text-center" id="div_comandos">
+                <a class="btn btn-lg btn-primary" href="${pageContext.servletContext.contextPath}/usuario/create">
+                    Inserir novo usuário
+                </a>
+
+                <button class="btn btn-lg btn-warning" data-toggle="modal" data-target="#modal_excluir_usuarios">
+                    Excluir múltiplos usuários
+                </button>
+            </div>
+
+            <form id="form_excluir_usuarios" action="${pageContext.servletContext.contextPath}/usuario/delete" method="POST">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th class="col-lg-2 h4">ID</th>
+                            <th class="col-lg-6 h4">Login</th>
+                            <th class="col-lg-3 h4 text-center">Ação</th>
+                            <th class="col-lg-1 h4 text-center">Excluir?</th>
+                        </tr>
+                    </thead>
                     <tbody>
-                        <c:forEach var="u" items="${usuarioList}">
-                            <tr>
-                                <td><c:out value="${u.id}"/></td>
-                                <td>
-                                    <a href="${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}">
-                                        <c:out value="${u.login}"/>
-                                    </a>
-                                </td>
-                                <td>
-                                    <a href="${pageContext.servletContext.contextPath}/usuario/update?id=${u.id}">Editar</a>
-                                </td>
-                                <td>
-                                    <a href="${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}">Excluir</a>
-                                </td>
-                                <td>
-                                    <input type="checkbox" name="delete" value="${u.id}">
-                                </td>
-                            </tr>
-                        </c:forEach>
+                    <c:forEach var="u" items="${usuarioList}">
+                        <tr>
+                            <td>
+                                <span class="h4"><c:out value="${u.id}"/></span>
+                            </td>
+                            <td>
+                                <a href="javascript:void(0)"
+                                   onclick="visualizaUsuario('${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}')"
+                                >
+                                    <span class="h4"><c:out value="${u.login}"/></span>
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <a class="btn btn-default"
+                                   href="${pageContext.servletContext.contextPath}/usuario/update?id=${u.id}"
+                                >
+                                    Editar
+                                </a>
+                                <a class="btn btn-default"
+                                   href="javascript:void(0)"
+                                   onclick="excluiUsuario('${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}')"
+                                >
+                                    Excluir
+                                </a>
+                            </td>
+                            <td class="text-center">
+                                <input class="checkbox-inline" type="checkbox" name="delete" value="${u.id}">
+                            </td>
+                        </tr>
+                    </c:forEach>
                     </tbody>
-            </table>
+                </table>
+            </form>
+        </div>
 
-            <input type="submit" value="Excluir múltiplos usuários">
-        </form>
+        <div class="modal" id="modal_visualizar_usuario">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="button" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title">Detalhes</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modal_id"></p>
+                        <p id="modal_login"></p>
+                        <p id="modal_nome"></p>
+                        <p id="modal_nascimento"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-primary" type="button" data-dismiss="modal">Fechar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <h1><a href="${pageContext.servletContext.contextPath}/usuario/create">Cadastrar usuário</a></h1>
+        <div class="modal fade" id="modal_excluir_usuario">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="button" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title">Confirmação</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza de que deseja excluir este usuário?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <a class="btn btn-danger" id="link_excluir_usuario">Sim</a>
+                        <button class="btn btn-primary" type="button" data-dismiss="modal">Não</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-        <h1><a href="${pageContext.servletContext.contextPath}/">Home page</a></h1>
+        <div class="modal fade" id="modal_excluir_usuarios">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button class="close" type="button" data-dismiss="modal"><span>&times;</span></button>
+                        <h4 class="modal-title">Confirmação</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Tem certeza de que deseja excluir os usuários selecionados?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-danger" type="button" onclick="excluiUsuarios()">Sim</button>
+                        <button class="btn btn-primary" type="button" data-dismiss="modal">Não</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <session:erro mensagem="${sessionScope.erro}"/>
 
         <%@include file="/view/include/scripts.jsp"%>
+        <script src="${pageContext.servletContext.contextPath}/assets/js/main.js"></script>
     </body>
 </html>

@@ -1,38 +1,47 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:if test="${empty sessionScope.usuario}">
-    <c:redirect context="${pageContext.servletContext.contextPath}" url="/"/>
-</c:if>
+<%@taglib tagdir="/WEB-INF/tags" prefix="session"%>
+<session:usuario context="${pageContext.servletContext.contextPath}"/>
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="/view/include/favicon.jsp"%>
+        <%@include file="/view/include/head.jsp"%>
+        <link href="${pageContext.servletContext.contextPath}/assets/css/navbar.css" rel="stylesheet">
+        <link href="${pageContext.servletContext.contextPath}/assets/css/usuario_form.css" rel="stylesheet">
         <title>[BD 2014] Usuários</title>
     </head>
     <body>
-        <h1>Edição do usuário <c:out value="${usuario.nome}"/></h1>
+        <%@include file="/view/include/navbar.jsp"%>
 
-        <form action="${pageContext.servletContext.contextPath}/usuario/update" method="POST">
-            <label>ID:</label><br>
-            <input type="text" name="id_disabled" value="${usuario.id}" disabled><br><br>
+        <div class="container">
+            <h2 class="text-center">Edição do usuário <c:out value="${usuario.nome}"/></h2>
 
-            <label>Login:</label><br>
-            <input type="text" name="login" value="${usuario.login}"><br><br>
+            <form class="form-group" action="${pageContext.servletContext.contextPath}/usuario/update" method="POST">
+                <label class="h4">ID</label><br>
+                <input class="form-control" type="text" name="id_disabled" value="${usuario.id}" disabled>
 
-            <label>Senha:</label><br>
-            <input type="password" name="senha" value="${usuario.senha}"><br><br>
+                <label class="h4">Login</label><br>
+                <input class="form-control" type="text" name="login" value="${usuario.login}">
 
-            <label>Nome:</label><br>
-            <input type="text" name="nome" value="${usuario.nome}"><br><br>
+                <label class="h4">Senha</label><br>
+                <input class="form-control" type="password" name="senha" value="${usuario.senha}">
 
-            <label>Data de nascimento:</label><br>
-            <input type="date" name="nascimento" value="${usuario.nascimento}"><br><br>
+                <label class="h4">Nome</label><br>
+                <input class="form-control" type="text" name="nome" value="${usuario.nome}">
 
-            <input type="hidden" name="id" value="${usuario.id}">
+                <label class="h4">Data de nascimento</label><br>
+                <input class="form-control" type="date" name="nascimento" value="${usuario.nascimento}">
 
-            <input type="submit" value="Enviar">
-        </form>
+                <input type="hidden" name="id" value="${usuario.id}">
 
-        <h1><a href="${pageContext.servletContext.contextPath}/usuario">Voltar</a></h1>
+                <div class="text-center">
+                    <button class="btn btn-lg btn-primary" type="submit">Editar</button>
+                </div>
+            </form>
+        </div>
+
+        <session:erro mensagem="${sessionScope.erro}"/>
+
+        <%@include file="/view/include/scripts.jsp"%>
     </body>
 </html>

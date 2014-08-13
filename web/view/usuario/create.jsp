@@ -1,33 +1,42 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<c:if test="${empty sessionScope.usuario}">
-    <c:redirect context="${pageContext.servletContext.contextPath}" url="/"/>
-</c:if>
+<%@taglib tagdir="/WEB-INF/tags" prefix="session"%>
+<session:usuario context="${pageContext.servletContext.contextPath}"/>
 <!DOCTYPE html>
 <html>
     <head>
-        <%@include file="/view/include/favicon.jsp"%>
+        <%@include file="/view/include/head.jsp"%>
+        <link href="${pageContext.servletContext.contextPath}/assets/css/navbar.css" rel="stylesheet">
+        <link href="${pageContext.servletContext.contextPath}/assets/css/usuario_form.css" rel="stylesheet">
         <title>[BD 2014] Usuários</title>
     </head>
     <body>
-        <h1>Cadastro de usuário</h1>
+        <%@include file="/view/include/navbar.jsp"%>
 
-        <form action="${pageContext.servletContext.contextPath}/usuario/create" method="POST">
-            <label>Login:</label><br>
-            <input type="text" name="login"><br><br>
+        <div class="container">
+            <h2 class="text-center">Inserção de um novo usuário</h2>
 
-            <label>Senha:</label><br>
-            <input type="password" name="senha"><br><br>
+            <form class="form-group" action="${pageContext.servletContext.contextPath}/usuario/create" method="POST">
+                <label class="h4">Login</label>
+                <input class="form-control" type="text" name="login" autofocus>
 
-            <label>Nome:</label><br>
-            <input type="text" name="nome"><br><br>
+                <label class="h4">Senha</label>
+                <input class="form-control" type="password" name="senha">
 
-            <label>Data de nascimento:</label><br>
-            <input type="date" name="nascimento"><br><br>
+                <label class="h4">Nome</label><br>
+                <input class="form-control" type="text" name="nome">
 
-            <input type="submit" value="Enviar">
-        </form>
+                <label class="h4">Data de nascimento</label><br>
+                <input class="form-control" type="date" name="nascimento">
 
-        <h1><a href="${pageContext.servletContext.contextPath}/usuario">Voltar</a></h1>
+                <div class="text-center">
+                    <button class="btn btn-lg btn-primary" type="submit">Inserir</button>
+                </div>
+            </form>
+        </div>
+
+        <session:erro mensagem="${sessionScope.erro}"/>
+
+        <%@include file="/view/include/scripts.jsp"%>
     </body>
 </html>

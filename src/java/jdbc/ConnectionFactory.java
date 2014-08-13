@@ -6,8 +6,6 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class ConnectionFactory {
 
@@ -46,7 +44,7 @@ public class ConnectionFactory {
             dbUser = properties.getProperty("user");
             dbPassword = properties.getProperty("password");
         } catch (IOException ex) {
-            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
         }
     }
 
@@ -66,7 +64,7 @@ public class ConnectionFactory {
             // Estabelece uma conexão.
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
         } catch (ClassNotFoundException | SQLException ex) {
-            Logger.getLogger(ConnectionFactory.class.getName()).log(Level.SEVERE, null, ex);
+            System.err.println(ex.getMessage());
         }
 
         return connection;
