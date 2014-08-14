@@ -14,7 +14,7 @@
         <%@include file="/view/include/navbar.jsp"%>
 
         <div class="container">
-            <div class="text-center" id="div_comandos">
+            <div class="text-center" id="div_inserir_excluir">
                 <a class="btn btn-lg btn-primary" href="${pageContext.servletContext.contextPath}/usuario/create">
                     Inserir novo usuário
                 </a>
@@ -41,8 +41,9 @@
                                 <span class="h4"><c:out value="${u.id}"/></span>
                             </td>
                             <td>
-                                <a href="javascript:void(0)"
-                                   onclick="visualizaUsuario('${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}')"
+                                <a class="link_visualizar_usuario"
+                                   href="javascript:void(0)"
+                                   data-href="${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}"
                                 >
                                     <span class="h4"><c:out value="${u.login}"/></span>
                                 </a>
@@ -53,9 +54,9 @@
                                 >
                                     Editar
                                 </a>
-                                <a class="btn btn-default"
+                                <a class="btn btn-default link_excluir_usuario"
                                    href="javascript:void(0)"
-                                   onclick="excluiUsuario('${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}')"
+                                   data-href="${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}"
                                 >
                                     Excluir
                                 </a>
@@ -101,7 +102,7 @@
                         <p>Tem certeza de que deseja excluir este usuário?</p>
                     </div>
                     <div class="modal-footer">
-                        <a class="btn btn-danger" id="link_excluir_usuario">Sim</a>
+                        <a class="btn btn-danger" id="link_confirmacao_excluir_usuario">Sim</a>
                         <button class="btn btn-primary" type="button" data-dismiss="modal">Não</button>
                     </div>
                 </div>
@@ -119,7 +120,7 @@
                         <p>Tem certeza de que deseja excluir os usuários selecionados?</p>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-danger" type="button" onclick="excluiUsuarios()">Sim</button>
+                        <button class="btn btn-danger button_confirmacao_excluir_usuarios" type="button">Sim</button>
                         <button class="btn btn-primary" type="button" data-dismiss="modal">Não</button>
                     </div>
                 </div>

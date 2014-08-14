@@ -14,7 +14,9 @@
                             <a href="${pageContext.servletContext.contextPath}/">Home</a>
                         </li>
                         <li class="dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Gerenciar <span class="caret"></span></a>
+                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                                Gerenciar <span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu">
                                 <li><a href="${pageContext.servletContext.contextPath}/usuario">Usuários</a></li>
                             </ul>

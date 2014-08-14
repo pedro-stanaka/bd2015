@@ -35,7 +35,8 @@ public class UsuarioDAO extends DAO<Usuario> {
 
     private static final String allQuery =
                                 "SELECT id, login " +
-                                "FROM usuario;";
+                                "FROM usuario " +
+                                "ORDER BY id;";
 
     private static final String authenticateQuery =
                                 "SELECT id, nome, nascimento " +
