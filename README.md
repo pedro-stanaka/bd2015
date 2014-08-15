@@ -1,7 +1,11 @@
 BD 2014
 =======
 
-Exemplo inicial para o trabalho de Bancos de Dados A.
+Exemplo de cadastro de usuários desenvolvido durante o estágio de docência na graduação.
+
+- **Instituição:** Universidade Estadual de Londrina
+- **Curso:** Ciência da Computação
+- **Disciplina:** Bancos de Dados A
 
 
 
@@ -43,9 +47,9 @@ Definir as seguintes propriedades no arquivo `src/java/jdbc/datasource.propertie
 - **user:** usuário de conexão ao banco de dados
 - **password:** senha de conexão ao banco de dados
 
-Criar a seguinte tabela no banco de dados:
+Criar a tabela `usuario` no banco de dados:
 
-```SQL
+```sql
 CREATE TABLE usuario
 (
   id serial NOT NULL,
