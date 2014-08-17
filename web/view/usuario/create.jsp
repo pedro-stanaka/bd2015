@@ -23,10 +23,10 @@
                 <label class="h4">Senha</label>
                 <input class="form-control" type="password" name="senha">
 
-                <label class="h4">Nome</label><br>
+                <label class="h4">Nome</label>
                 <input class="form-control" type="text" name="nome">
 
-                <label class="h4">Data de nascimento</label><br>
+                <label class="h4">Data de nascimento</label>
                 <input class="form-control" type="date" name="nascimento">
 
                 <div class="text-center">

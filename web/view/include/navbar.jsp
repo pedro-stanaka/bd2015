@@ -1,7 +1,7 @@
-        <div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".navbar-collapse">
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -14,11 +14,11 @@
                             <a href="${pageContext.servletContext.contextPath}/">Home</a>
                         </li>
                         <li class="dropdown">
-                            <a href="javascript:void(0)" class="dropdown-toggle" data-toggle="dropdown">
+                            <a class="dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown">
                                 Gerenciar <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="${pageContext.servletContext.contextPath}/usuario">Usuários</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/usuario">Usu?ios</a></li>
                             </ul>
                         </li>
                     </ul>

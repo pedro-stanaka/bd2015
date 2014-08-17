@@ -14,23 +14,23 @@
         <%@include file="/view/include/navbar.jsp"%>
 
         <div class="container">
-            <div class="text-center" id="div_inserir_excluir">
+            <div class="text-center div_inserir_excluir">
                 <a class="btn btn-lg btn-primary" href="${pageContext.servletContext.contextPath}/usuario/create">
                     Inserir novo usuário
                 </a>
 
-                <button class="btn btn-lg btn-warning" data-toggle="modal" data-target="#modal_excluir_usuarios">
+                <button class="btn btn-lg btn-warning" data-toggle="modal" data-target=".modal_excluir_usuarios">
                     Excluir múltiplos usuários
                 </button>
             </div>
 
-            <form id="form_excluir_usuarios" action="${pageContext.servletContext.contextPath}/usuario/delete" method="POST">
+            <form class="form_excluir_usuarios" action="${pageContext.servletContext.contextPath}/usuario/delete" method="POST">
                 <table class="table table-striped">
                     <thead>
                         <tr>
                             <th class="col-lg-2 h4">ID</th>
-                            <th class="col-lg-6 h4">Login</th>
-                            <th class="col-lg-3 h4 text-center">Ação</th>
+                            <th class="col-lg-5 h4">Login</th>
+                            <th class="col-lg-4 h4 text-center">Ação</th>
                             <th class="col-lg-1 h4 text-center">Excluir?</th>
                         </tr>
                     </thead>
@@ -41,23 +41,15 @@
                                 <span class="h4"><c:out value="${u.id}"/></span>
                             </td>
                             <td>
-                                <a class="link_visualizar_usuario"
-                                   href="javascript:void(0)"
-                                   data-href="${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}"
-                                >
+                                <a class="link_visualizar_usuario" href="javascript:void(0)" data-href="${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}">
                                     <span class="h4"><c:out value="${u.login}"/></span>
                                 </a>
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-default"
-                                   href="${pageContext.servletContext.contextPath}/usuario/update?id=${u.id}"
-                                >
+                                <a class="btn btn-default" href="${pageContext.servletContext.contextPath}/usuario/update?id=${u.id}" >
                                     Editar
                                 </a>
-                                <a class="btn btn-default link_excluir_usuario"
-                                   href="javascript:void(0)"
-                                   data-href="${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}"
-                                >
+                                <a class="btn btn-default link_excluir_usuario" href="javascript:void(0)" data-href="${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}">
                                     Excluir
                                 </a>
                             </td>
@@ -71,7 +63,9 @@
             </form>
         </div>
 
-        <div class="modal" id="modal_visualizar_usuario">
+        <session:erro mensagem="${sessionScope.erro}"/>
+
+        <div class="modal modal_visualizar_usuario">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -79,10 +73,10 @@
                         <h4 class="modal-title">Detalhes</h4>
                     </div>
                     <div class="modal-body">
-                        <p id="modal_id"></p>
-                        <p id="modal_login"></p>
-                        <p id="modal_nome"></p>
-                        <p id="modal_nascimento"></p>
+                        <p class="p_id"></p>
+                        <p class="p_login"></p>
+                        <p class="p_nome"></p>
+                        <p class="p_nascimento"></p>
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="button" data-dismiss="modal">Fechar</button>
@@ -91,7 +85,7 @@
             </div>
         </div>
 
-        <div class="modal fade" id="modal_excluir_usuario">
+        <div class="modal fade modal_excluir_usuario">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -102,14 +96,14 @@
                         <p>Tem certeza de que deseja excluir este usuário?</p>
                     </div>
                     <div class="modal-footer">
-                        <a class="btn btn-danger" id="link_confirmacao_excluir_usuario">Sim</a>
+                        <a class="btn btn-danger link_confirmacao_excluir_usuario">Sim</a>
                         <button class="btn btn-primary" type="button" data-dismiss="modal">Não</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="modal fade" id="modal_excluir_usuarios">
+        <div class="modal fade modal_excluir_usuarios">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -126,8 +120,6 @@
                 </div>
             </div>
         </div>
-
-        <session:erro mensagem="${sessionScope.erro}"/>
 
         <%@include file="/view/include/scripts.jsp"%>
         <script src="${pageContext.servletContext.contextPath}/assets/js/main.js"></script>

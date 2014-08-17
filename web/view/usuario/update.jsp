@@ -17,19 +17,19 @@
             <h2 class="text-center">Edição do usuário <c:out value="${usuario.nome}"/></h2>
 
             <form class="form-group" action="${pageContext.servletContext.contextPath}/usuario/update" method="POST">
-                <label class="h4">ID</label><br>
-                <input class="form-control" type="text" name="id_disabled" value="${usuario.id}" disabled>
+                <label class="h4">ID</label>
+                <input class="form-control" type="text" name="id" value="${usuario.id}" disabled>
 
-                <label class="h4">Login</label><br>
+                <label class="h4">Login</label>
                 <input class="form-control" type="text" name="login" value="${usuario.login}">
 
-                <label class="h4">Senha</label><br>
+                <label class="h4">Senha</label>
                 <input class="form-control" type="password" name="senha" value="${usuario.senha}">
 
-                <label class="h4">Nome</label><br>
+                <label class="h4">Nome</label>
                 <input class="form-control" type="text" name="nome" value="${usuario.nome}">
 
-                <label class="h4">Data de nascimento</label><br>
+                <label class="h4">Data de nascimento</label>
                 <input class="form-control" type="date" name="nascimento" value="${usuario.nascimento}">
 
                 <input type="hidden" name="id" value="${usuario.id}">

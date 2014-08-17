@@ -32,12 +32,10 @@ public class ConnectionFactory {
         Properties properties = new Properties();
 
         try {
-            // Carrega o arquivo com as propriedades do banco de dados.
             String path = "jdbc/datasource.properties";
             InputStream input = this.getClass().getClassLoader().getResourceAsStream(path);
             properties.load(input);
 
-            // Obtém as informações do banco de dados a partir do arquivo carregado.
             dbHost = properties.getProperty("host");
             dbPort = properties.getProperty("port");
             dbName = properties.getProperty("name");
@@ -52,16 +50,12 @@ public class ConnectionFactory {
         Connection connection = null;
 
         try {
-            // Registra o driver na JVM.
             Class.forName("org.postgresql.Driver");
 
-            // Lê as propriedades do banco de dados.
             readProperties();
 
-            // Forma a URL de conexão.
             String url = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
 
-            // Estabelece uma conexão.
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
         } catch (ClassNotFoundException | SQLException ex) {
             System.err.println(ex.getMessage());

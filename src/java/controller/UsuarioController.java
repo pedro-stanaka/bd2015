@@ -157,8 +157,14 @@ public class UsuarioController extends HttpServlet {
                         daoFactory.rollbackTransaction();
                     }
                 } catch (SQLException ex) {
-                    String erro = (String) session.getAttribute("erro");
-                    erro += "\n" + ex.getMessage();
+                    String erro = "";
+
+                    if (session.getAttribute("erro") != null) {
+                        erro += (String) session.getAttribute("erro") + "\n";
+                    }
+
+                    erro += ex.getMessage();
+
                     session.setAttribute("erro", erro);
                 }
 
