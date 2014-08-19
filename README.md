@@ -27,12 +27,14 @@ Bibliotecas utilizadas
 - [jQuery][3]
 - [Bootstrap][4]
 - [Gson][5]
+- [Datepicker][6]
 
 [1]: https://jstl.java.net/
 [2]: http://jdbc.postgresql.org/
 [3]: http://jquery.com/
 [4]: http://getbootstrap.com/
 [5]: https://code.google.com/p/google-gson/
+[6]: https://github.com/eternicode/bootstrap-datepicker/
 
 
 
