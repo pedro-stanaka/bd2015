@@ -4,10 +4,10 @@
     margin: 0 auto;
 }
 
-.form-group input {
+.form-control {
     margin-bottom: 10px;
 }
 
-.form-group input[type="date"] {
+.datepicker {
     margin-bottom: 20px;
 }

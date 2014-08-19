@@ -4,6 +4,16 @@ function mostraErro() {
     }
 }
 
+function mostraCalendario() {
+    if ($('.datepicker').length > 0) {
+        $('.datepicker').datepicker({
+            language: 'pt-BR',
+            format: 'dd/mm/yyyy',
+            autoclose: true
+        });
+    }
+}
+
 function excluiUsuario() {
     $('.link_confirmacao_excluir_usuario').attr('href', $(this).data('href'));
     $('.modal_excluir_usuario').modal();
@@ -26,6 +36,7 @@ function visualizaUsuario() {
 
 $(document).ready(function () {
     mostraErro();
+    mostraCalendario();
     $(document).on('click', '.link_excluir_usuario', excluiUsuario);
     $(document).on('click', '.button_confirmacao_excluir_usuarios', excluiUsuarios);
     $(document).on('click', '.link_visualizar_usuario', visualizaUsuario);

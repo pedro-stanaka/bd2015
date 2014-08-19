@@ -1,11 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@taglib tagdir="/WEB-INF/tags" prefix="session"%>
 <session:usuario context="${pageContext.servletContext.contextPath}"/>
 <!DOCTYPE html>
 <html>
     <head>
         <%@include file="/view/include/head.jsp"%>
+        <link href="${pageContext.servletContext.contextPath}/assets/vendor/css/datepicker.min.css" rel="stylesheet">
         <link href="${pageContext.servletContext.contextPath}/assets/css/navbar.css" rel="stylesheet">
         <link href="${pageContext.servletContext.contextPath}/assets/css/usuario_form.css" rel="stylesheet">
         <title>[BD 2014] Usuários</title>
@@ -30,7 +32,7 @@
                 <input class="form-control" type="text" name="nome" value="${usuario.nome}">
 
                 <label class="h4">Data de nascimento</label>
-                <input class="form-control" type="date" name="nascimento" value="${usuario.nascimento}">
+                <input class="form-control datepicker" type="text" name="nascimento" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${usuario.nascimento}"/>" placeholder="dd/mm/yyyy">
 
                 <input type="hidden" name="id" value="${usuario.id}">
 
@@ -43,5 +45,8 @@
         <session:erro mensagem="${sessionScope.erro}"/>
 
         <%@include file="/view/include/scripts.jsp"%>
+        <script src="${pageContext.servletContext.contextPath}/assets/vendor/js/bootstrap-datepicker.min.js"></script>
+        <script src="${pageContext.servletContext.contextPath}/assets/vendor/js/bootstrap-datepicker.pt-BR.min.js"></script>
+        <script src="${pageContext.servletContext.contextPath}/assets/js/main.js"></script>
     </body>
 </html>

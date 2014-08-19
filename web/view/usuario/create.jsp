@@ -6,6 +6,7 @@
 <html>
     <head>
         <%@include file="/view/include/head.jsp"%>
+        <link href="${pageContext.servletContext.contextPath}/assets/vendor/css/datepicker.min.css" rel="stylesheet">
         <link href="${pageContext.servletContext.contextPath}/assets/css/navbar.css" rel="stylesheet">
         <link href="${pageContext.servletContext.contextPath}/assets/css/usuario_form.css" rel="stylesheet">
         <title>[BD 2014] Usuários</title>
@@ -27,7 +28,7 @@
                 <input class="form-control" type="text" name="nome">
 
                 <label class="h4">Data de nascimento</label>
-                <input class="form-control" type="date" name="nascimento">
+                <input class="form-control datepicker" type="text" name="nascimento" placeholder="dd/mm/yyyy">
 
                 <div class="text-center">
                     <button class="btn btn-lg btn-primary" type="submit">Inserir</button>
@@ -38,5 +39,8 @@
         <session:erro mensagem="${sessionScope.erro}"/>
 
         <%@include file="/view/include/scripts.jsp"%>
+        <script src="${pageContext.servletContext.contextPath}/assets/vendor/js/bootstrap-datepicker.min.js"></script>
+        <script src="${pageContext.servletContext.contextPath}/assets/vendor/js/bootstrap-datepicker.pt-BR.min.js"></script>
+        <script src="${pageContext.servletContext.contextPath}/assets/js/main.js"></script>
     </body>
 </html>

@@ -18,7 +18,7 @@
                                 Gerenciar <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="${pageContext.servletContext.contextPath}/usuario">Usu?ios</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/usuario">Usuários</a></li>
                             </ul>
                         </li>
                     </ul>

@@ -1,6 +1,7 @@
 package controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import dao.DAO;
 import dao.DAOFactory;
 import java.io.IOException;
@@ -40,7 +41,7 @@ public class UsuarioController extends HttpServlet {
 
                     Usuario usuario = (Usuario) dao.read(Integer.parseInt(request.getParameter("id")));
 
-                    Gson gson = new Gson();
+                    Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                     String json = gson.toJson(usuario);
 
                     response.getOutputStream().print(json);
@@ -57,7 +58,7 @@ public class UsuarioController extends HttpServlet {
                     Usuario usuario = (Usuario) dao.read(Integer.parseInt(request.getParameter("id")));
                     request.setAttribute("usuario", usuario);
 
-                    dispatcher = request.getRequestDispatcher("/view" + request.getServletPath() + ".jsp");
+                    dispatcher = request.getRequestDispatcher("/view/usuario/update.jsp");
                     dispatcher.forward(request, response);
                 } catch (SQLException ex) {
                     request.getSession().setAttribute("erro", ex.getMessage());
@@ -97,13 +98,16 @@ public class UsuarioController extends HttpServlet {
         DAO dao;
         Usuario usuario = new Usuario();
         HttpSession session = request.getSession();
+        String[] nascimento;
 
         switch (request.getServletPath()) {
             case "/usuario/create":
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
-                usuario.setNascimento(Date.valueOf(request.getParameter("nascimento")));
+
+                nascimento = request.getParameter("nascimento").split("/");
+                usuario.setNascimento(Date.valueOf(nascimento[2] + "-" + nascimento[1] + "-" + nascimento[0]));
 
                 try (DAOFactory daoFactory = new DAOFactory();) {
                     dao = daoFactory.getUsuarioDAO();
@@ -120,7 +124,9 @@ public class UsuarioController extends HttpServlet {
                 usuario.setId(Integer.parseInt(request.getParameter("id")));
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setNome(request.getParameter("nome"));
-                usuario.setNascimento(Date.valueOf(request.getParameter("nascimento")));
+
+                nascimento = request.getParameter("nascimento").split("/");
+                usuario.setNascimento(Date.valueOf(nascimento[2] + "-" + nascimento[1] + "-" + nascimento[0]));
 
                 if (!request.getParameter("senha").isEmpty()) {
                     usuario.setSenha(request.getParameter("senha"));
