@@ -23,7 +23,7 @@ Bibliotecas utilizadas
 ======================
 
 - [JSTL][1]
-- [JDBC - PostgreSQL][2]
+- [JDBC][2]
 - [jQuery][3]
 - [Bootstrap][4]
 - [Gson][5]
