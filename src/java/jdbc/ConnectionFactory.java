@@ -28,7 +28,7 @@ public class ConnectionFactory {
         return instance;
     }
 
-    public void readProperties() {
+    public void readProperties() throws IOException {
         Properties properties = new Properties();
 
         try {
@@ -43,10 +43,12 @@ public class ConnectionFactory {
             dbPassword = properties.getProperty("password");
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
+
+            throw new IOException("Erro ao obter informações do banco de dados.");
         }
     }
 
-    public Connection getConnection() {
+    public Connection getConnection() throws ClassNotFoundException, IOException, SQLException {
         Connection connection = null;
 
         try {
@@ -57,8 +59,14 @@ public class ConnectionFactory {
             String url = "jdbc:postgresql://" + dbHost + ":" + dbPort + "/" + dbName;
 
             connection = DriverManager.getConnection(url, dbUser, dbPassword);
-        } catch (ClassNotFoundException | SQLException ex) {
+        } catch (ClassNotFoundException ex) {
             System.err.println(ex.getMessage());
+
+            throw new ClassNotFoundException("Erro de conexão ao banco de dados.");
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro de conexão ao banco de dados.");
         }
 
         return connection;

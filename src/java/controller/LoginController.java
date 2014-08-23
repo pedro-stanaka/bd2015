@@ -64,8 +64,8 @@ public class LoginController extends HttpServlet {
                     dao.authenticate(usuario);
 
                     session.setAttribute("usuario", usuario);
-                } catch (SQLException | SecurityException ex) {
-                    session.setAttribute("erro", ex.getMessage());
+                } catch (ClassNotFoundException | IOException | SQLException | SecurityException ex) {
+                    session.setAttribute("error", ex.getMessage());
                 }
 
                 response.sendRedirect(request.getContextPath() + "/");

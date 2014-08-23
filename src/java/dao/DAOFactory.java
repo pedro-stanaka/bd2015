@@ -1,5 +1,6 @@
 package dao;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Savepoint;
@@ -9,36 +10,78 @@ public class DAOFactory implements AutoCloseable {
 
     private Connection connection = null;
 
-    public DAOFactory() {
+    public DAOFactory() throws ClassNotFoundException, IOException, SQLException {
         connection = ConnectionFactory.getInstance().getConnection();
     }
 
     public void beginTransaction() throws SQLException {
-        connection.setAutoCommit(false);
+        try {
+            connection.setAutoCommit(false);
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao abrir transação.");
+        }
     }
 
     public Savepoint createSavepoint(String name) throws SQLException {
-        return connection.setSavepoint(name);
+        try {
+            return connection.setSavepoint(name);
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao executar transação.");
+        }
     }
 
     public void commitTransaction() throws SQLException {
-        connection.commit();
+        try {
+            connection.commit();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao finalizar transação.");
+        }
     }
 
     public void rollbackTransaction() throws SQLException {
-        connection.rollback();
+        try {
+            connection.rollback();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao executar transação.");
+        }
     }
 
     public void rollbackTransactionTo(Savepoint savepoint) throws SQLException {
-        connection.rollback(savepoint);
+        try {
+            connection.rollback(savepoint);
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao executar transação.");
+        }
     }
 
     public void endTransaction() throws SQLException {
-        connection.setAutoCommit(true);
+        try {
+            connection.setAutoCommit(true);
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao finalizar transação.");
+        }
     }
 
     public void closeConnection() throws SQLException {
-        connection.close();
+        try {
+            connection.close();
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao fechar conexão ao banco de dados.");
+        }
     }
 
     public UsuarioDAO getUsuarioDAO() {

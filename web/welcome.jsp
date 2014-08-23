@@ -24,8 +24,6 @@
             </div>
         </div>
 
-        <session:erro mensagem="${sessionScope.erro}"/>
-
         <%@include file="/view/include/scripts.jsp"%>
     </body>
 </html>

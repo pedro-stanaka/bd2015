@@ -19,24 +19,24 @@
 
             <form class="form-group" action="${pageContext.servletContext.contextPath}/usuario/create" method="POST">
                 <label class="h4">Login</label>
-                <input class="form-control" type="text" name="login" autofocus>
+                <input class="form-control" type="text" name="login" required autofocus>
 
                 <label class="h4">Senha</label>
-                <input class="form-control" type="password" name="senha">
+                <input class="form-control" type="password" name="senha" required>
 
                 <label class="h4">Nome</label>
-                <input class="form-control" type="text" name="nome">
+                <input class="form-control" type="text" name="nome" required>
 
                 <label class="h4">Data de nascimento</label>
-                <input class="form-control datepicker" type="text" name="nascimento" placeholder="dd/mm/yyyy">
+                <input class="form-control datepicker" type="text" name="nascimento" placeholder="dd/mm/yyyy" pattern="\d{2}/\d{2}/\d{4}" required>
 
                 <div class="text-center">
                     <button class="btn btn-lg btn-primary" type="submit">Inserir</button>
                 </div>
             </form>
-        </div>
 
-        <session:erro mensagem="${sessionScope.erro}"/>
+            <session:erro alertClass="usuario-form-alert" errorMessage="${sessionScope.error}"/>
+        </div>
 
         <%@include file="/view/include/scripts.jsp"%>
         <script src="${pageContext.servletContext.contextPath}/assets/vendor/js/bootstrap-datepicker.min.js"></script>

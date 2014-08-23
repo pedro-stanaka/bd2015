@@ -61,9 +61,9 @@
                     </tbody>
                 </table>
             </form>
-        </div>
 
-        <session:erro mensagem="${sessionScope.erro}"/>
+            <session:erro alertClass="usuario-index-alert" errorMessage="${sessionScope.error}" rollbackErrorMessage="${sessionScope.rollbackError}"/>
+        </div>
 
         <div class="modal modal_visualizar_usuario">
             <div class="modal-dialog">

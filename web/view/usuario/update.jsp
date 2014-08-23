@@ -23,16 +23,16 @@
                 <input class="form-control" type="text" name="id" value="${usuario.id}" disabled>
 
                 <label class="h4">Login</label>
-                <input class="form-control" type="text" name="login" value="${usuario.login}">
+                <input class="form-control" type="text" name="login" value="${usuario.login}" required autofocus>
 
                 <label class="h4">Senha</label>
-                <input class="form-control" type="password" name="senha" value="${usuario.senha}">
+                <input class="form-control" type="password" name="senha" value="${usuario.senha}" required>
 
                 <label class="h4">Nome</label>
-                <input class="form-control" type="text" name="nome" value="${usuario.nome}">
+                <input class="form-control" type="text" name="nome" value="${usuario.nome}" required>
 
                 <label class="h4">Data de nascimento</label>
-                <input class="form-control datepicker" type="text" name="nascimento" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${usuario.nascimento}"/>" placeholder="dd/mm/yyyy">
+                <input class="form-control datepicker" type="text" name="nascimento" value="<fmt:formatDate pattern="dd/MM/yyyy" value="${usuario.nascimento}"/>" placeholder="dd/mm/yyyy" pattern="\d{2}/\d{2}/\d{4}" required>
 
                 <input type="hidden" name="id" value="${usuario.id}">
 
@@ -40,9 +40,9 @@
                     <button class="btn btn-lg btn-primary" type="submit">Editar</button>
                 </div>
             </form>
-        </div>
 
-        <session:erro mensagem="${sessionScope.erro}"/>
+            <session:erro alertClass="usuario-form-alert" errorMessage="${sessionScope.error}"/>
+        </div>
 
         <%@include file="/view/include/scripts.jsp"%>
         <script src="${pageContext.servletContext.contextPath}/assets/vendor/js/bootstrap-datepicker.min.js"></script>

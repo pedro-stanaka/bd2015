@@ -57,7 +57,15 @@ public class UsuarioDAO extends DAO<Usuario> {
 
             statement.executeUpdate();
         } catch (SQLException ex) {
-            throw ex;
+            System.err.println(ex.getMessage());
+
+            if (ex.getMessage().contains("uq_usuario_login")) {
+                throw new SQLException("Erro ao inserir usuário: login já existente.");
+            } else if (ex.getMessage().contains("not-null")) {
+                throw new SQLException("Erro ao inserir usuário: pelo menos um campo está em branco.");
+            } else {
+                throw new SQLException("Erro ao inserir usuário.");
+            }
         }
     }
 
@@ -74,8 +82,16 @@ public class UsuarioDAO extends DAO<Usuario> {
                     usuario.setNome(result.getString("nome"));
                     usuario.setNascimento(result.getDate("nascimento"));
                 } else {
-                    throw new SQLException("Falha ao visualizar: usuário não encontrado.");
+                    throw new SQLException("Erro ao visualizar: usuário não encontrado.");
                 }
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            if (ex.getMessage().equals("Erro ao visualizar: usuário não encontrado.")) {
+                throw ex;
+            } else {
+                throw new SQLException("Erro ao visualizar usuário.");
             }
         }
 
@@ -105,7 +121,19 @@ public class UsuarioDAO extends DAO<Usuario> {
             }
 
             if (statement.executeUpdate() < 1) {
-                throw new SQLException("Falha ao editar: usuário não encontrado.");
+                throw new SQLException("Erro ao editar: usuário não encontrado.");
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            if (ex.getMessage().equals("Erro ao editar: usuário não encontrado.")) {
+                throw ex;
+            } else if (ex.getMessage().contains("uq_usuario_login")) {
+                throw new SQLException("Erro ao editar usuário: login já existente.");
+            } else if (ex.getMessage().contains("not-null")) {
+                throw new SQLException("Erro ao editar usuário: pelo menos um campo está em branco.");
+            } else {
+                throw new SQLException("Erro ao editar usuário.");
             }
         }
     }
@@ -116,7 +144,15 @@ public class UsuarioDAO extends DAO<Usuario> {
             statement.setInt(1, id);
 
             if (statement.executeUpdate() < 1) {
-                throw new SQLException("Falha ao excluir: usuário não encontrado.");
+                throw new SQLException("Erro ao excluir: usuário não encontrado.");
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
+
+            if (ex.getMessage().equals("Erro ao excluir: usuário não encontrado.")) {
+                throw ex;
+            } else {
+                throw new SQLException("Erro ao excluir usuário.");
             }
         }
     }
@@ -135,7 +171,9 @@ public class UsuarioDAO extends DAO<Usuario> {
                 usuarioList.add(usuario);
             }
         } catch (SQLException ex) {
-            throw ex;
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao listar usuários.");
         }
 
         return usuarioList;
@@ -156,7 +194,9 @@ public class UsuarioDAO extends DAO<Usuario> {
                 }
             }
         } catch (SQLException ex) {
-            throw ex;
+            System.err.println(ex.getMessage());
+
+            throw new SQLException("Erro ao autenticar usuário.");
         }
     }
 }

@@ -13,14 +13,14 @@
             <form class="form-signin" action="${pageContext.servletContext.contextPath}/login" method="POST">
                 <h2 class="form-signin-heading">Por favor, faça login.</h2>
 
-                <input class="form-control" type="text" name="login" placeholder="Usuário" autofocus>
-                <input class="form-control" type="password" name="senha" placeholder="Senha">
+                <input class="form-control" type="text" name="login" placeholder="Usuário" required autofocus>
+                <input class="form-control" type="password" name="senha" placeholder="Senha" required>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             </form>
-        </div>
 
-        <session:erro mensagem="${sessionScope.erro}"/>
+            <session:erro alertClass="login-alert" errorMessage="${sessionScope.error}"/>
+        </div>
 
         <%@include file="/view/include/scripts.jsp"%>
         <script src="${pageContext.servletContext.contextPath}/assets/js/main.js"></script>

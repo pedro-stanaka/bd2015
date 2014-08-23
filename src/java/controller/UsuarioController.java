@@ -45,8 +45,8 @@ public class UsuarioController extends HttpServlet {
                     String json = gson.toJson(usuario);
 
                     response.getOutputStream().print(json);
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("erro", ex.getMessage());
+                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                    request.getSession().setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario");
                 }
 
@@ -60,8 +60,8 @@ public class UsuarioController extends HttpServlet {
 
                     dispatcher = request.getRequestDispatcher("/view/usuario/update.jsp");
                     dispatcher.forward(request, response);
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("erro", ex.getMessage());
+                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                    request.getSession().setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario");
                 }
 
@@ -71,8 +71,8 @@ public class UsuarioController extends HttpServlet {
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.delete(Integer.parseInt(request.getParameter("id")));
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("erro", ex.getMessage());
+                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                    request.getSession().setAttribute("error", ex.getMessage());
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
@@ -84,8 +84,8 @@ public class UsuarioController extends HttpServlet {
 
                     List<Usuario> usuarioList = dao.all();
                     request.setAttribute("usuarioList", usuarioList);
-                } catch (SQLException ex) {
-                    request.getSession().setAttribute("erro", ex.getMessage());
+                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                    request.getSession().setAttribute("error", ex.getMessage());
                 }
 
                 dispatcher = request.getRequestDispatcher("/view/usuario/index.jsp");
@@ -113,11 +113,12 @@ public class UsuarioController extends HttpServlet {
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.create(usuario);
-                } catch (SQLException ex) {
-                    session.setAttribute("erro", ex.getMessage());
-                }
 
-                response.sendRedirect(request.getContextPath() + "/usuario");
+                    response.sendRedirect(request.getContextPath() + "/usuario");
+                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                    session.setAttribute("error", ex.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/usuario/create");
+                }
 
                 break;
             case "/usuario/update":
@@ -136,11 +137,12 @@ public class UsuarioController extends HttpServlet {
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.update(usuario);
-                } catch (SQLException ex) {
-                    session.setAttribute("erro", ex.getMessage());
-                }
 
-                response.sendRedirect(request.getContextPath() + "/usuario");
+                    response.sendRedirect(request.getContextPath() + "/usuario");
+                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                    session.setAttribute("error", ex.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/usuario/update");
+                }
 
                 break;
             case "/usuario/delete":
@@ -159,19 +161,13 @@ public class UsuarioController extends HttpServlet {
                         daoFactory.commitTransaction();
                         daoFactory.endTransaction();
                     } catch (SQLException ex) {
-                        session.setAttribute("erro", ex.getMessage());
+                        session.setAttribute("error", ex.getMessage());
                         daoFactory.rollbackTransaction();
                     }
+                } catch (ClassNotFoundException | IOException ex) {
+                    session.setAttribute("error", ex.getMessage());
                 } catch (SQLException ex) {
-                    String erro = "";
-
-                    if (session.getAttribute("erro") != null) {
-                        erro += (String) session.getAttribute("erro") + "\n";
-                    }
-
-                    erro += ex.getMessage();
-
-                    session.setAttribute("erro", erro);
+                    session.setAttribute("rollbackError", ex.getMessage());
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
