@@ -4,7 +4,7 @@
 <%@attribute name="rollbackErrorMessage" required="false"%>
 
 <c:if test="${not empty sessionScope.error}">
-    <div class="alert alert-danger fade in error-message <c:out value="${alertClass}"/>">
+    <div class="alert alert-danger fade in <c:out value="${alertClass}"/>">
         <button class="close" type="button" data-dismiss="alert">&times;</button>
         <c:out value="${errorMessage}"/>
     </div>
@@ -13,7 +13,7 @@
 </c:if>
 
 <c:if test="${not empty sessionScope.rollbackError}">
-    <div class="alert alert-danger fade in rollback-error-message <c:out value="${alertClass}"/>">
+    <div class="alert alert-danger fade in <c:out value="${alertClass}"/>">
         <button class="close" type="button" data-dismiss="alert">&times;</button>
         <c:out value="${rollbackErrorMessage}"/>
     </div>
