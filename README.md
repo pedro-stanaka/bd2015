@@ -38,8 +38,8 @@ Bibliotecas utilizadas
 
 
 
-Como executar
-=============
+Passos necessários para executar o projeto
+==========================================
 
 Definir as seguintes propriedades no arquivo `src/java/jdbc/datasource.properties`:
 
