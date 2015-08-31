@@ -6,7 +6,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <span class="navbar-brand">BD 2014</span>
+                    <span class="navbar-brand">BD 2015</span>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
