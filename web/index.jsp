@@ -6,7 +6,7 @@
     <head>
         <%@include file="/view/include/head.jsp"%>
         <link href="${pageContext.servletContext.contextPath}/assets/css/login.css" rel="stylesheet">
-        <title>[BD 2014] Login</title>
+        <title>[BD 2015] Login</title>
     </head>
     <body>
         <div class="container">

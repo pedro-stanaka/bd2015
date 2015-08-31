@@ -154,8 +154,8 @@ public class UsuarioController extends HttpServlet {
                     try {
                         daoFactory.beginTransaction();
 
-                        for (int i = 0; i < usuarios.length; ++i) {
-                            dao.delete(Integer.parseInt(usuarios[i]));
+                        for (String usuario1 : usuarios) {
+                            dao.delete(Integer.parseInt(usuario1));
                         }
 
                         daoFactory.commitTransaction();

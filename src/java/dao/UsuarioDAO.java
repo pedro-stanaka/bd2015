@@ -49,7 +49,7 @@ public class UsuarioDAO extends DAO<Usuario> {
 
     @Override
     public void create(Usuario usuario) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(createQuery);) {
+        try (PreparedStatement statement = connection.prepareStatement(createQuery)) {
             statement.setString(1, usuario.getLogin());
             statement.setString(2, usuario.getSenha());
             statement.setString(3, usuario.getNome());
@@ -73,9 +73,9 @@ public class UsuarioDAO extends DAO<Usuario> {
     public Usuario read(Integer id) throws SQLException {
         Usuario usuario = new Usuario();
 
-        try (PreparedStatement statement = connection.prepareStatement(readQuery);) {
+        try (PreparedStatement statement = connection.prepareStatement(readQuery)) {
             statement.setInt(1, id);
-            try (ResultSet result = statement.executeQuery();) {
+            try (ResultSet result = statement.executeQuery()) {
                 if (result.next()) {
                     usuario.setId(id);
                     usuario.setLogin(result.getString("login"));
@@ -108,7 +108,7 @@ public class UsuarioDAO extends DAO<Usuario> {
             query = updateWithPasswordQuery;
         }
 
-        try (PreparedStatement statement = connection.prepareStatement(query);) {
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, usuario.getLogin());
             statement.setString(2, usuario.getNome());
             statement.setDate(3, usuario.getNascimento());
@@ -140,7 +140,7 @@ public class UsuarioDAO extends DAO<Usuario> {
 
     @Override
     public void delete(Integer id) throws SQLException {
-        try (PreparedStatement statement = connection.prepareStatement(deleteQuery);) {
+        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
             statement.setInt(1, id);
 
             if (statement.executeUpdate() < 1) {
@@ -162,7 +162,7 @@ public class UsuarioDAO extends DAO<Usuario> {
         List<Usuario> usuarioList = new ArrayList<>();
 
         try (PreparedStatement statement = connection.prepareStatement(allQuery);
-             ResultSet result = statement.executeQuery();) {
+             ResultSet result = statement.executeQuery()) {
             while (result.next()) {
                 Usuario usuario = new Usuario();
                 usuario.setId(result.getInt("id"));
@@ -180,11 +180,11 @@ public class UsuarioDAO extends DAO<Usuario> {
     }
 
     public void authenticate(Usuario usuario) throws SQLException, SecurityException {
-        try (PreparedStatement statement = connection.prepareStatement(authenticateQuery);) {
+        try (PreparedStatement statement = connection.prepareStatement(authenticateQuery)) {
             statement.setString(1, usuario.getLogin());
             statement.setString(2, usuario.getSenha());
 
-            try (ResultSet result = statement.executeQuery();) {
+            try (ResultSet result = statement.executeQuery()) {
                 if (result.next()) {
                     usuario.setId(result.getInt("id"));
                     usuario.setNome(result.getString("nome"));
