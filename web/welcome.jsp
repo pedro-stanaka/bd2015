@@ -17,7 +17,7 @@
             
             <div class="jumbotron">
                 <h1>Bem-vindo,
-                <jsp:useBean id="usuario" scope="request" type="model.Usuario"/>
+                <%--@elvariable id="usuario" type="model.Usuario"--%>
                 <c:out value="${usuario.nome}"/>!</h1>
                 <p>Este é um exemplo de cadastro de usuários para o trabalho da disciplina Bancos de Dados A.</p>
                 <p>
