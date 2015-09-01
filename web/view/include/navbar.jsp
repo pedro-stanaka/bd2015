@@ -1,3 +1,4 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <div class="navbar navbar-default navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -6,7 +7,7 @@
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
                     </button>
-                    <span class="navbar-brand">BD 2015</span>
+                    <span class="navbar-brand"><a href="${pageContext.servletContext.contextPath}/">BD 2015</a></span>
                 </div>
                 <div class="navbar-collapse collapse">
                     <ul class="nav navbar-nav">
@@ -18,7 +19,7 @@
                                 Gerenciar <span class="caret"></span>
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a href="${pageContext.servletContext.contextPath}/usuario">Usu·rios</a></li>
+                                <li><a href="${pageContext.servletContext.contextPath}/usuario">Usu√°rios</a></li>
                             </ul>
                         </li>
                     </ul>
