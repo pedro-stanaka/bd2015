@@ -7,6 +7,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+
+/**
+ * 
+ * @author ph
+ */
 public class ConnectionFactory {
 
     private static ConnectionFactory instance = null;

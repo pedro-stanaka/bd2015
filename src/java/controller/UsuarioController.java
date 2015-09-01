@@ -4,10 +4,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.DAO;
 import dao.DAOFactory;
-import java.io.IOException;
-import java.sql.Date;
-import java.sql.SQLException;
-import java.util.List;
+import model.Usuario;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -15,18 +13,21 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import model.Usuario;
+import java.io.IOException;
+import java.sql.Date;
+import java.sql.SQLException;
+import java.util.List;
 
 @WebServlet(urlPatterns = {"/usuario/create",
-                           "/usuario/read",
-                           "/usuario/update",
-                           "/usuario/delete",
-                           "/usuario"})
+        "/usuario/read",
+        "/usuario/update",
+        "/usuario/delete",
+        "/usuario"})
 public class UsuarioController extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAO dao;
+        DAO<Usuario> dao;
         RequestDispatcher dispatcher;
 
         switch (request.getServletPath()) {
@@ -36,10 +37,10 @@ public class UsuarioController extends HttpServlet {
 
                 break;
             case "/usuario/read":
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
-                    Usuario usuario = (Usuario) dao.read(Integer.parseInt(request.getParameter("id")));
+                    Usuario usuario = dao.read(Integer.parseInt(request.getParameter("id")));
 
                     Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                     String json = gson.toJson(usuario);
@@ -52,10 +53,10 @@ public class UsuarioController extends HttpServlet {
 
                 break;
             case "/usuario/update":
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
-                    Usuario usuario = (Usuario) dao.read(Integer.parseInt(request.getParameter("id")));
+                    Usuario usuario = dao.read(Integer.parseInt(request.getParameter("id")));
                     request.setAttribute("usuario", usuario);
 
                     dispatcher = request.getRequestDispatcher("/view/usuario/update.jsp");
@@ -67,7 +68,7 @@ public class UsuarioController extends HttpServlet {
 
                 break;
             case "/usuario/delete":
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.delete(Integer.parseInt(request.getParameter("id")));
@@ -79,7 +80,7 @@ public class UsuarioController extends HttpServlet {
 
                 break;
             case "/usuario":
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
                     List<Usuario> usuarioList = dao.all();
@@ -95,7 +96,7 @@ public class UsuarioController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAO dao;
+        DAO<Usuario> dao;
         Usuario usuario = new Usuario();
         HttpSession session = request.getSession();
         String[] nascimento;
@@ -109,7 +110,7 @@ public class UsuarioController extends HttpServlet {
                 nascimento = request.getParameter("nascimento").split("/");
                 usuario.setNascimento(Date.valueOf(nascimento[2] + "-" + nascimento[1] + "-" + nascimento[0]));
 
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.create(usuario);
@@ -133,7 +134,7 @@ public class UsuarioController extends HttpServlet {
                     usuario.setSenha(request.getParameter("senha"));
                 }
 
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.update(usuario);
@@ -148,14 +149,14 @@ public class UsuarioController extends HttpServlet {
             case "/usuario/delete":
                 String[] usuarios = request.getParameterValues("delete");
 
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
                     try {
                         daoFactory.beginTransaction();
 
-                        for (String usuario1 : usuarios) {
-                            dao.delete(Integer.parseInt(usuario1));
+                        for (String usuarioId : usuarios) {
+                            dao.delete(Integer.parseInt(usuarioId));
                         }
 
                         daoFactory.commitTransaction();

@@ -58,7 +58,7 @@ public class LoginController extends HttpServlet {
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setSenha(request.getParameter("senha"));
 
-                try (DAOFactory daoFactory = new DAOFactory();) {
+                try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.authenticate(usuario);

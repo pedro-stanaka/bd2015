@@ -2,6 +2,10 @@ package model;
 
 import java.sql.Date;
 
+/**
+ * Bean de usuário
+ * @author ph
+ */
 public class Usuario {
 
     private Integer id;
