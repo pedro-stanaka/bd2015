@@ -1,5 +1,5 @@
-BD 2014
-=======
+# BD 2015 #
+
 
 Exemplo de cadastro de usuários desenvolvido durante o estágio de docência na graduação.
 
@@ -9,37 +9,36 @@ Exemplo de cadastro de usuários desenvolvido durante o estágio de docência na
 
 
 
-Ambiente de desenvolvimento
-===========================
+## Ambiente de desenvolvimento ##
+
 
 - **Plataforma:** Java EE 7
-- **IDE:** NetBeans 8
+- **IDE:** IntelliJ IDEA 14 (ou NetBeans 8)
 - **SGBD:** PostgreSQL 9.3
-- **Sistema operacional:** Ubuntu 14.04 LTS
 
 
 
-Bibliotecas utilizadas
-======================
+## Bibliotecas utilizadas ##
+
 
 - [JSTL][1]
 - [JDBC][2]
 - [jQuery][3]
 - [Bootstrap][4]
 - [Gson][5]
-- [Datepicker][6]
+- [Datepicker - jQuery Plugin][6]
 
 [1]: https://jstl.java.net/
 [2]: http://jdbc.postgresql.org/
 [3]: http://jquery.com/
 [4]: http://getbootstrap.com/
-[5]: https://code.google.com/p/google-gson/
+[5]: https://github.com/google/gson
 [6]: https://github.com/eternicode/bootstrap-datepicker/
 
 
 
-Para executar o projeto
-=======================
+## Rodando o projeto ##
+
 
 Definir as seguintes propriedades no arquivo `src/java/jdbc/datasource.properties`:
 
@@ -63,3 +62,9 @@ CREATE TABLE usuario
   CONSTRAINT uq_usuario_login UNIQUE (login)
 )
 ```
+
+
+
+### Créditos ###
+
+Este projeto foi desenvolvido por Paulo Henrique Oliveira [(@oliveiraph17)](https://github.com/oliveiraph17).
