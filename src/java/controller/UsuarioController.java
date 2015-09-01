@@ -16,6 +16,8 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @WebServlet(urlPatterns = {"/usuario/create",
@@ -99,7 +101,7 @@ public class UsuarioController extends HttpServlet {
         DAO<Usuario> dao;
         Usuario usuario = new Usuario();
         HttpSession session = request.getSession();
-        String[] nascimento;
+        String nascimento;
 
         switch (request.getServletPath()) {
             case "/usuario/create":
@@ -107,16 +109,20 @@ public class UsuarioController extends HttpServlet {
                 usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
 
-                nascimento = request.getParameter("nascimento").split("/");
-                usuario.setNascimento(Date.valueOf(nascimento[2] + "-" + nascimento[1] + "-" + nascimento[0]));
+                nascimento = request.getParameter("nascimento");
+
 
                 try (DAOFactory daoFactory = new DAOFactory()) {
+
+                    java.util.Date dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(nascimento);
+                    usuario.setNascimento(new Date(dataNascimento.getTime()));
+
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.create(usuario);
 
                     response.sendRedirect(request.getContextPath() + "/usuario");
-                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                } catch (ClassNotFoundException | IOException | ParseException | SQLException ex ) {
                     session.setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario/create");
                 }
@@ -127,20 +133,22 @@ public class UsuarioController extends HttpServlet {
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setNome(request.getParameter("nome"));
 
-                nascimento = request.getParameter("nascimento").split("/");
-                usuario.setNascimento(Date.valueOf(nascimento[2] + "-" + nascimento[1] + "-" + nascimento[0]));
+                nascimento = request.getParameter("nascimento");
 
                 if (!request.getParameter("senha").isEmpty()) {
                     usuario.setSenha(request.getParameter("senha"));
                 }
 
                 try (DAOFactory daoFactory = new DAOFactory()) {
+                    java.util.Date dataNascimento = new SimpleDateFormat("dd/MM/yyyy").parse(nascimento);
+                    usuario.setNascimento(new Date(dataNascimento.getTime()));
+
                     dao = daoFactory.getUsuarioDAO();
 
                     dao.update(usuario);
 
                     response.sendRedirect(request.getContextPath() + "/usuario");
-                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                } catch (ClassNotFoundException | IOException | ParseException | SQLException ex) {
                     session.setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario/update");
                 }
