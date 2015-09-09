@@ -43,6 +43,11 @@ public class UsuarioDAO extends DAO<Usuario> {
                                 "FROM usuario " +
                                 "WHERE login = ? AND senha = md5(?);";
 
+    private static final String getByLoginQuery =
+                                "SELECT id, login, nome, nascimento " +
+                                "FROM usuario " +
+                                "WHERE login = ?;";
+
     public UsuarioDAO(Connection connection) {
         super(connection);
     }
@@ -196,6 +201,32 @@ public class UsuarioDAO extends DAO<Usuario> {
         } catch (SQLException ex) {
             System.err.println(ex.getMessage());
 
+            throw new SQLException("Erro ao autenticar usuário.");
+        }
+    }
+
+
+    public Usuario getByLogin(String login) throws SQLException {
+
+        try (PreparedStatement statement = connection.prepareStatement(getByLoginQuery)) {
+            statement.setString(1, login);
+
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    Usuario usuario = new Usuario();
+                    usuario.setId(result.getInt("id"));
+                    usuario.setNome(result.getString("nome"));
+                    usuario.setNascimento(result.getDate("nascimento"));
+                    usuario.setLogin(login);
+                    return usuario;
+
+                } else {
+
+                    return null;
+                }
+            }
+        } catch (SQLException ex) {
+            System.err.println(ex.getMessage());
             throw new SQLException("Erro ao autenticar usuário.");
         }
     }

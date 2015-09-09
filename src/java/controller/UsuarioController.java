@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dao.DAO;
 import dao.DAOFactory;
+import dao.UsuarioDAO;
 import model.Usuario;
 
 import javax.servlet.RequestDispatcher;
@@ -18,9 +19,13 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-@WebServlet(urlPatterns = {"/usuario/create",
+@WebServlet(urlPatterns = {
+        "/usuario/checkLogin",
+        "/usuario/create",
         "/usuario/read",
         "/usuario/update",
         "/usuario/delete",
@@ -98,13 +103,13 @@ public class UsuarioController extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        DAO<Usuario> dao;
+        UsuarioDAO dao;
         Usuario usuario = new Usuario();
         HttpSession session = request.getSession();
         String nascimento;
 
         switch (request.getServletPath()) {
-            case "/usuario/create":
+            case "/usuario/create": {
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
@@ -122,13 +127,14 @@ public class UsuarioController extends HttpServlet {
                     dao.create(usuario);
 
                     response.sendRedirect(request.getContextPath() + "/usuario");
-                } catch (ClassNotFoundException | IOException | ParseException | SQLException ex ) {
+                } catch (ClassNotFoundException | IOException | ParseException | SQLException ex) {
                     session.setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario/create");
                 }
 
                 break;
-            case "/usuario/update":
+            }
+            case "/usuario/update": {
                 usuario.setId(Integer.parseInt(request.getParameter("id")));
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setNome(request.getParameter("nome"));
@@ -154,7 +160,8 @@ public class UsuarioController extends HttpServlet {
                 }
 
                 break;
-            case "/usuario/delete":
+            }
+            case "/usuario/delete": {
                 String[] usuarios = request.getParameterValues("delete");
 
                 try (DAOFactory daoFactory = new DAOFactory()) {
@@ -180,6 +187,34 @@ public class UsuarioController extends HttpServlet {
                 }
 
                 response.sendRedirect(request.getContextPath() + "/usuario");
+
+                break; // end - delete
+            }
+            case "/usuario/checkLogin": {
+                try (DAOFactory daoFactory = new DAOFactory()) {
+                    dao = daoFactory.getUsuarioDAO();
+
+                    usuario = dao.getByLogin(request.getParameter("login"));
+
+                    Gson gson = new Gson();
+                    Map<String, String> result = new HashMap<>();
+                    if (usuario != null) {
+                        result.put("status", "USADO");
+                    } else {
+                        result.put("status", "NAO_USADO");
+                    }
+
+                    String json = gson.toJson(result);
+                    response.setContentType("application/json");
+                    response.getOutputStream().print(json);
+
+                } catch (ClassNotFoundException | IOException | SQLException ex) {
+                    request.getSession().setAttribute("error", ex.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/usuario");
+                }
+
+                break;
+            }
         }
     }
 }

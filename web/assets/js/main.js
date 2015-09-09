@@ -38,6 +38,25 @@ function readUser() {
     });
 }
 
+
+$(document).on('focusout', '#usuario-login', function (e) {
+    var $input = $(this);
+    $.post($.url("/usuario/checkLogin"), { login: $("#usuario-login").val() }, function(data) {
+        var $formGroup = $input.parents(".form-group").first();
+        if (data.status == "USADO") {
+            if (!$formGroup.hasClass("has-error")) {
+                $formGroup.addClass("has-error");
+            }
+            $input.next("p").html("O login escolhido existe. Por favor, tente outro.");
+        } else {
+            if ($formGroup.hasClass("has-error")) {
+                $formGroup.removeClass("has-error");
+            }
+            $input.next("p").html("");
+        }
+    });
+});
+
 $(document).ready(function () {
     showDatepicker();
     showErrors();
