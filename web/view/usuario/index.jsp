@@ -8,7 +8,7 @@
         <%@include file="/view/include/head.jsp"%>
         <link href="${pageContext.servletContext.contextPath}/assets/css/navbar.css" rel="stylesheet">
         <link href="${pageContext.servletContext.contextPath}/assets/css/usuario_index.css" rel="stylesheet">
-        <title>[BD 2014] Usuários</title>
+        <title>[BD 2015] Usuários</title>
     </head>
     <body>
         <%@include file="/view/include/navbar.jsp"%>
@@ -41,7 +41,7 @@
                                 <span class="h4"><c:out value="${u.id}"/></span>
                             </td>
                             <td>
-                                <a class="link_visualizar_usuario" href="javascript:void(0)" data-href="${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}">
+                                <a class="link_visualizar_usuario" href="#" data-href="${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}">
                                     <span class="h4"><c:out value="${u.login}"/></span>
                                 </a>
                             </td>
@@ -49,7 +49,7 @@
                                 <a class="btn btn-default" href="${pageContext.servletContext.contextPath}/usuario/update?id=${u.id}" >
                                     Editar
                                 </a>
-                                <a class="btn btn-default link_excluir_usuario" href="javascript:void(0)" data-href="${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}">
+                                <a class="btn btn-default link_excluir_usuario" href="#" data-href="${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}">
                                     Excluir
                                 </a>
                             </td>

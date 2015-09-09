@@ -23,11 +23,13 @@ function deleteUser() {
     $('.modal_excluir_usuario').modal();
 }
 
-function deleteUsers() {
+function deleteUsers(e) {
+    e.preventDefault();
     $('.form_excluir_usuarios').submit();
 }
 
-function readUser() {
+function readUser(e) {
+    e.preventDefault();
     $.get($(this).data('href'), function (data) {
         var usuario = JSON.parse(data);
         $('.p_id').html('<strong>ID: </strong>' + usuario.id);

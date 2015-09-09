@@ -10,7 +10,7 @@
         <link href="${pageContext.servletContext.contextPath}/assets/vendor/css/datepicker.min.css" rel="stylesheet">
         <link href="${pageContext.servletContext.contextPath}/assets/css/navbar.css" rel="stylesheet">
         <link href="${pageContext.servletContext.contextPath}/assets/css/usuario_form.css" rel="stylesheet">
-        <title>[BD 2014] Usuários</title>
+        <title>[BD 2015] Usuários</title>
     </head>
     <body>
         <%@include file="/view/include/navbar.jsp"%>
