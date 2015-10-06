@@ -5,6 +5,7 @@
  *
  * Depends on: jQuery.trim
  *
+ * @author Pedro Tanaka
  * @param someObj The object to be checked
  * @returns {boolean} True if empty, false otherwise
  */
@@ -17,7 +18,9 @@ function isEmpty(someObj){
 }
 
 /**
- * Returns a formatted url with the proper base prepended
+ * Returns a formatted url with the proper base prepended;
+ *
+ * @author Pedro Tanaka
  * @param {string} url The url to be appended (must begin with '/' )
  * @returns {string}
  */

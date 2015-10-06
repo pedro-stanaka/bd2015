@@ -1,6 +1,7 @@
 function showDatepicker() {
-    if ($('.datepicker').length > 0) {
-        $('.datepicker').datepicker({
+    var $datepicker = $('.datepicker');
+    if ($datepicker.length > 0) {
+        $datepicker.datepicker({
             language: 'pt-BR',
             format: 'dd/mm/yyyy',
             autoclose: true
@@ -9,12 +10,14 @@ function showDatepicker() {
 }
 
 function showErrors() {
-    if ($('.error-message').length > 0) {
-        $('.error-message').alert();
+    var $errorMsg = $('.error-message');
+    if ($errorMsg.length > 0) {
+        $errorMsg.alert();
     }
 
-    if ($('.rollback-error-message').length > 0) {
-        $('.rollback-error-message').alert();
+    var $rollbackMsg = $('.rollback-error-message');
+    if ($rollbackMsg.length > 0) {
+        $rollbackMsg.alert();
     }
 }
 
@@ -32,11 +35,14 @@ function readUser(e) {
     e.preventDefault();
     $.get($(this).data('href'), function (data) {
         var usuario = JSON.parse(data);
-        $('.p_id').html('<strong>ID: </strong>' + usuario.id);
-        $('.p_login').html('<strong>Login: </strong>' + usuario.login);
-        $('.p_nome').html('<strong>Nome: </strong>' + usuario.nome);
-        $('.p_nascimento').html('<strong>Data de nascimento: </strong>' + usuario.nascimento);
-        $('.modal_visualizar_usuario').modal();
+        var $modal = $('.modal-visualizar-usuario');
+
+        $modal.find('.p_id').html('<strong>ID: </strong>' + usuario.id);
+        $modal.find(".p_login").html('<strong>Login: </strong>' + usuario.login);
+        $modal.find('.p_nome').html('<strong>Nome: </strong>' + usuario.nome);
+        $modal.find('.p_nascimento').html('<strong>Data de nascimento: </strong>' + usuario.nascimento);
+
+        $modal.modal();
     });
 }
 
@@ -65,4 +71,7 @@ $(document).ready(function () {
     $(document).on('click', '.link_excluir_usuario', deleteUser);
     $(document).on('click', '.button_confirmacao_excluir_usuarios', deleteUsers);
     $(document).on('click', '.link_visualizar_usuario', readUser);
+    $("*[data-toggle='tooltip']").tooltip({
+        'container': 'body'
+    });
 });

@@ -35,26 +35,33 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <c:forEach var="u" items="${usuarioList}">
+                    <c:forEach var="usuario" items="${requestScope.usuarioList}">
                         <tr>
                             <td>
-                                <span class="h4"><c:out value="${u.id}"/></span>
+                                <span class="h4"><c:out value="${usuario.id}"/></span>
                             </td>
                             <td>
-                                <a class="link_visualizar_usuario" href="#" data-href="${pageContext.servletContext.contextPath}/usuario/read?id=${u.id}">
-                                    <span class="h4"><c:out value="${u.login}"/></span>
+                                <a class="link_visualizar_usuario" href="#" data-href="${pageContext.servletContext.contextPath}/usuario/read?id=${usuario.id}">
+                                    <span class="h4"><c:out value="${usuario.login}"/></span>
                                 </a>
                             </td>
                             <td class="text-center">
-                                <a class="btn btn-default" href="${pageContext.servletContext.contextPath}/usuario/update?id=${u.id}" >
-                                    Editar
+                                <a class="btn btn-default"
+                                   href="${pageContext.servletContext.contextPath}/usuario/update?id=${usuario.id}"
+                                   data-toggle="tooltip"
+                                   data-original-title="Editar">
+                                    <i class="glyphicon glyphicon-pencil"></i>
                                 </a>
-                                <a class="btn btn-default link_excluir_usuario" href="#" data-href="${pageContext.servletContext.contextPath}/usuario/delete?id=${u.id}">
-                                    Excluir
+                                <a class="btn btn-default link_excluir_usuario"
+                                   href="#"
+                                   data-href="${pageContext.servletContext.contextPath}/usuario/delete?id=${usuario.id}"
+                                        data-toggle="tooltip"
+                                        data-original-title="Excluir">
+                                    <i class="glyphicon glyphicon-trash"></i>
                                 </a>
                             </td>
                             <td class="text-center">
-                                <input class="checkbox-inline" type="checkbox" name="delete" value="${u.id}">
+                                <input class="checkbox-inline" type="checkbox" name="delete" value="${usuario.id}" />
                             </td>
                         </tr>
                     </c:forEach>
@@ -65,7 +72,7 @@
             <session:erro alertClass="usuario-index-alert" errorMessage="${sessionScope.error}" rollbackErrorMessage="${sessionScope.rollbackError}"/>
         </div>
 
-        <div class="modal modal_visualizar_usuario">
+        <div class="modal modal-visualizar-usuario">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
