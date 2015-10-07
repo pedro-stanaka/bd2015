@@ -41,6 +41,7 @@ function readUser(e) {
         $modal.find(".p_login").html('<strong>Login: </strong>' + usuario.login);
         $modal.find('.p_nome').html('<strong>Nome: </strong>' + usuario.nome);
         $modal.find('.p_nascimento').html('<strong>Data de nascimento: </strong>' + usuario.nascimento);
+        $modal.find('.usuario-img').prop('src', $.url(usuario.avatar));
 
         $modal.modal();
     });

@@ -15,7 +15,7 @@ public class UsuarioDAO extends DAO<Usuario> {
                                 "VALUES(?, md5(?), ?, ?, ?);";
 
     private static final String readQuery =
-                                "SELECT login, nome, nascimento " +
+                                "SELECT login, nome, nascimento, avatar " +
                                 "FROM usuario " +
                                 "WHERE id = ?;";
 
@@ -87,6 +87,7 @@ public class UsuarioDAO extends DAO<Usuario> {
                     usuario.setLogin(result.getString("login"));
                     usuario.setNome(result.getString("nome"));
                     usuario.setNascimento(result.getDate("nascimento"));
+                    usuario.setAvatar(result.getString("avatar"));
                 } else {
                     throw new SQLException("Erro ao visualizar: usuário não encontrado.");
                 }

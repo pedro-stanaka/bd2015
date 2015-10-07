@@ -253,9 +253,8 @@ public class UsuarioController extends HttpServlet {
         String fileName = extractFileName(part);
         if (fileName != null) {
             try {
-                fileName = savePath + File.separator + fileName;
-                part.write(fileName);
-                return fileName;
+                part.write(savePath + File.separator + fileName);
+                return "/" + SAVE_DIR + "/" + fileName;
             } catch (IOException ex) {
                 System.err.println(ex.getLocalizedMessage());
                 // TODO: criar sistema de mensagens (flash) e reportar os erros

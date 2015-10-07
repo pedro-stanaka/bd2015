@@ -80,10 +80,23 @@
                         <h4 class="modal-title">Detalhes</h4>
                     </div>
                     <div class="modal-body">
-                        <p class="p_id"></p>
-                        <p class="p_login"></p>
-                        <p class="p_nome"></p>
-                        <p class="p_nascimento"></p>
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-8">
+                                    <p class="p_id"></p>
+                                    <p class="p_login"></p>
+                                    <p class="p_nome"></p>
+                                    <p class="p_nascimento"></p>
+                                </div>
+                                <div class="col-md-4">
+                                    <a href="#" class="thumbnail">
+                                        <img class="usuario-img"
+                                             src="${pageContext.request.contextPath}/assets/img/default_avatar.png"/>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
                     <div class="modal-footer">
                         <button class="btn btn-primary" type="button" data-dismiss="modal">Fechar</button>
