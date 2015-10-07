@@ -19,7 +19,11 @@
 
         <h3>${pageContext.servletContext.contextPath}</h3>
 
-        <form class="form" action="${pageContext.servletContext.contextPath}/usuario/create" method="POST">
+        <form
+             class="form"
+             action="${pageContext.servletContext.contextPath}/usuario/create"
+             enctype="multipart/form-data"
+             method="POST">
             <div class="form-group">
                 <label class="control-label" for="usuario-login">Login</label>
                 <input id="usuario-login" class="form-control" type="text" name="login" required autofocus/>
@@ -44,6 +48,14 @@
                 <input id="usuario-nasc" class="form-control datepicker" type="text" name="nascimento"
                        placeholder="dd/mm/yyyy"
                        pattern="\d{2}/\d{2}/\d{4}" required/>
+            </div>
+
+            <div class="form-group">
+                <label for="usuario-avatar">Foto do perfil</label>
+                <input type="file"
+                       class="form-control" id="usuario-avatar"
+                       name="avatar"
+                       accept="image/*" />
             </div>
 
             <div class="text-center">

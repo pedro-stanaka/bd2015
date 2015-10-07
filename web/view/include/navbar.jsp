@@ -24,7 +24,7 @@
                         </li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="${pageContext.servletContext.contextPath}">Logout</a></li>
+                        <li><a href="${pageContext.servletContext.contextPath}/logout">Logout</a></li>
                     </ul>
                 </div>
             </div>

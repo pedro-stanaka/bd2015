@@ -13,6 +13,7 @@ public class Usuario {
     private String senha;
     private String nome;
     private Date nascimento;
+    private String avatar;
 
     public Integer getId() {
         return id;
@@ -52,5 +53,13 @@ public class Usuario {
 
     public void setNascimento(Date nascimento) {
         this.nascimento = nascimento;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 }

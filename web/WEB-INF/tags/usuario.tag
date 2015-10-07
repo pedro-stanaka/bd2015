@@ -2,5 +2,5 @@
 <%@attribute name="context" required="true"%>
 
 <c:if test="${empty sessionScope.usuario}">
-    <c:redirect context="${context}" url="/"/>
+    <c:redirect url="/" />
 </c:if>

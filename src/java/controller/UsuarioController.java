@@ -2,6 +2,7 @@ package controller;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.sun.istack.internal.NotNull;
 import dao.DAO;
 import dao.DAOFactory;
 import dao.UsuarioDAO;
@@ -9,11 +10,10 @@ import model.Usuario;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.*;
+import java.io.File;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
@@ -23,8 +23,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@MultipartConfig(
+        maxRequestSize = 1024 * 1024 * 4, // Max size of request is 4MB
+        maxFileSize =  1024 * 1024 * 4,
+        location = "/tmp"
+)
 @WebServlet(urlPatterns = {
-        "/usuario/checkLogin",
+        "/usuario/checkLoginPost",
         "/usuario/create",
         "/usuario/read",
         "/usuario/update",
@@ -32,9 +37,16 @@ import java.util.Map;
         "/usuario"})
 public class UsuarioController extends HttpServlet {
 
+
+    /**
+     * Pasta para salvar os arquivos que foram 'upados'
+     */
+    private static final String SAVE_DIR = "uploads";
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         DAO<Usuario> dao;
+        Usuario usuario;
         RequestDispatcher dispatcher;
 
         switch (request.getServletPath()) {
@@ -47,7 +59,7 @@ public class UsuarioController extends HttpServlet {
                 try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
-                    Usuario usuario = dao.read(Integer.parseInt(request.getParameter("id")));
+                    usuario = dao.read(Integer.parseInt(request.getParameter("id")));
 
                     Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                     String json = gson.toJson(usuario);
@@ -63,7 +75,7 @@ public class UsuarioController extends HttpServlet {
                 try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
 
-                    Usuario usuario = dao.read(Integer.parseInt(request.getParameter("id")));
+                    usuario = dao.read(Integer.parseInt(request.getParameter("id")));
                     request.setAttribute("usuario", usuario);
 
                     dispatcher = request.getRequestDispatcher("/view/usuario/update.jsp");
@@ -77,7 +89,6 @@ public class UsuarioController extends HttpServlet {
             case "/usuario/delete":
                 try (DAOFactory daoFactory = new DAOFactory()) {
                     dao = daoFactory.getUsuarioDAO();
-
                     dao.delete(Integer.parseInt(request.getParameter("id")));
                 } catch (ClassNotFoundException | IOException | SQLException ex) {
                     request.getSession().setAttribute("error", ex.getMessage());
@@ -113,9 +124,12 @@ public class UsuarioController extends HttpServlet {
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
-
                 nascimento = request.getParameter("nascimento");
-
+                // Upload do avatar
+                String fileName = uploadFile(request);
+                if (fileName != null) {
+                    usuario.setAvatar(fileName);
+                }
 
                 try (DAOFactory daoFactory = new DAOFactory()) {
 
@@ -128,6 +142,8 @@ public class UsuarioController extends HttpServlet {
 
                     response.sendRedirect(request.getContextPath() + "/usuario");
                 } catch (ClassNotFoundException | IOException | ParseException | SQLException ex) {
+                    // TODO: tratar ParseException separadamente
+                    // TODO: reporar ela como erro de validação
                     session.setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario/create");
                 }
@@ -154,8 +170,11 @@ public class UsuarioController extends HttpServlet {
                     dao.update(usuario);
 
                     response.sendRedirect(request.getContextPath() + "/usuario");
-                } catch (ClassNotFoundException | IOException | ParseException | SQLException ex) {
+                } catch (ClassNotFoundException | IOException  | SQLException ex) {
                     session.setAttribute("error", ex.getMessage());
+                    response.sendRedirect(request.getContextPath() + "/usuario/update");
+                } catch (ParseException ex) {
+                    session.setAttribute("error", "O formato de data não é válido. Por favor entre data no formato dd/mm/aaaa");
                     response.sendRedirect(request.getContextPath() + "/usuario/update");
                 }
 
@@ -217,4 +236,50 @@ public class UsuarioController extends HttpServlet {
             }
         }
     }
+
+    private String uploadFile(HttpServletRequest request) throws IOException, ServletException {
+        // Pegar o caminho absoluto da aplicação
+        String appPath = request.getServletContext().getRealPath("");
+        // Adicionar a pasta de upload no caminho absoluto
+        String savePath = appPath + File.separator + SAVE_DIR;
+
+        // creates the save directory if it does not exists
+        File fileSaveDir = new File(savePath);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdir();
+        }
+
+        Part part = request.getPart("avatar");
+        String fileName = extractFileName(part);
+        if (fileName != null) {
+            try {
+                fileName = savePath + File.separator + fileName;
+                part.write(fileName);
+                return fileName;
+            } catch (IOException ex) {
+                System.err.println(ex.getLocalizedMessage());
+                // TODO: criar sistema de mensagens (flash) e reportar os erros
+            }
+        }
+
+        return null;
+    }
+
+
+    /**
+     * Extrair o nome do arquivo do cabeçalho HTTP 'content-disposition'
+     * @param part a Part do form contendo o arquivo
+     * @return O nome completo do arquivo.
+     */
+    private String extractFileName(Part part) {
+        String contentDisp = part.getHeader("content-disposition");
+        String[] items = contentDisp.split(";");
+        for (String s : items) {
+            if (s.trim().startsWith("filename")) {
+                return s.substring(s.indexOf("=") + 2, s.length()-1);
+            }
+        }
+        return null;
+    }
+
 }

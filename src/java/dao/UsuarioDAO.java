@@ -11,8 +11,8 @@ import model.Usuario;
 public class UsuarioDAO extends DAO<Usuario> {
 
     private static final String createQuery =
-                                "INSERT INTO usuario(login, senha, nome, nascimento) " +
-                                "VALUES(?, md5(?), ?, ?);";
+                                "INSERT INTO usuario(login, senha, nome, nascimento, avatar) " +
+                                "VALUES(?, md5(?), ?, ?, ?);";
 
     private static final String readQuery =
                                 "SELECT login, nome, nascimento " +
@@ -59,6 +59,7 @@ public class UsuarioDAO extends DAO<Usuario> {
             statement.setString(2, usuario.getSenha());
             statement.setString(3, usuario.getNome());
             statement.setDate(4, usuario.getNascimento());
+            statement.setString(5, usuario.getAvatar());
 
             statement.executeUpdate();
         } catch (SQLException ex) {

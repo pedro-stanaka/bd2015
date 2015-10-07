@@ -15,6 +15,11 @@
 
                 <input class="form-control" type="text" name="login" placeholder="Usuário" required autofocus>
                 <input class="form-control" type="password" name="senha" placeholder="Senha" required>
+                <%--<p class="help-block">Ainda não é cadastrado?--%>
+                    <%--<a href="${pageContext.servletContext.contextPath}/usuario/create">--%>
+                        <%--Clique aqui--%>
+                    <%--</a>--%>
+                <%--</p>--%>
 
                 <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
             </form>
