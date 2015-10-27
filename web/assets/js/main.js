@@ -66,6 +66,30 @@ $(document).on('focusout', '#usuario-login', function (e) {
     });
 });
 
+
+$(document).on('focusout', '.password-input,.password-confirm', function(e) {
+    var $form = $(this).closest("form");
+    var $password = $form.find(".password-input");
+    var $passwordConfirm = $form.find(".password-confirm");
+
+    if ($password.val().trim() == '') {
+        return false;
+    }
+
+    if ($password.val() !== $passwordConfirm.val()) {
+        $passwordConfirm.closest('.form-group').addClass('has-error');
+        $password.closest('.form-group').addClass('has-error');
+        $passwordConfirm.next('p.help-block').html('<strong>Erro</strong>: as senhas não coincidem!');
+        $form.find("button,input[type='submit']").prop('disabled', true);
+    } else {
+        $passwordConfirm.closest('.form-group').removeClass('has-error').addClass('has-success');
+        $password.closest('.form-group').removeClass('has-error').addClass('has-success');
+        $passwordConfirm.next('p.help-block').html('');
+        $form.find("button,input[type='submit']").prop('disabled', false);
+    }
+});
+
+
 $(document).ready(function () {
     showDatepicker();
     showErrors();
