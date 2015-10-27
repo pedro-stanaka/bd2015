@@ -39,7 +39,9 @@ public class UsuarioController extends HttpServlet {
 
 
     /**
-     * Pasta para salvar os arquivos que foram 'upados'
+     * Pasta para salvar os arquivos que foram 'upados'.
+     * Os arquivos vão ser salvos na pasta de build do servidor.
+     * Ao limpar pode-se perder estes arquivos, façam backup antes de limpar.
      */
     private static final String SAVE_DIR = "uploads";
 
@@ -141,11 +143,11 @@ public class UsuarioController extends HttpServlet {
                     dao.create(usuario);
 
                     response.sendRedirect(request.getContextPath() + "/usuario");
-                } catch (ClassNotFoundException | IOException | ParseException | SQLException ex) {
-                    // TODO: tratar ParseException separadamente
-                    // TODO: reporar ela como erro de validação
+                } catch (ClassNotFoundException | IOException  | SQLException ex) {
                     session.setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario/create");
+                } catch (ParseException ex) {
+                    session.setAttribute("error", "O formato de data aceito é dd/mm/aaaa. Por favor, tente novamente.");
                 }
 
                 break;
@@ -257,7 +259,8 @@ public class UsuarioController extends HttpServlet {
                 return "/" + SAVE_DIR + "/" + fileName;
             } catch (IOException ex) {
                 System.err.println(ex.getLocalizedMessage());
-                // TODO: criar sistema de mensagens (flash) e reportar os erros
+                HttpSession session = request.getSession();
+                session.setAttribute("error", ex.getLocalizedMessage());
             }
         }
 
