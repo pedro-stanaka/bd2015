@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8" %>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@taglib prefix="session" tagdir="/WEB-INF/tags/session"  %>
-<session:usuario context="${pageContext.servletContext.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
