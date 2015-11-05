@@ -20,7 +20,7 @@ public class TaxiDAO extends DAO<TaxiPosition>{
     private final String queryRandom = "SELECT lat, lng, id, observ " +
             "FROM taxi_positions " +
             "WHERE id = 3 AND " +
-            "observ BETWEEN '2008-02-03 00:00:00.000000'::TIMESTAMP WITHOUT TIME ZONE AND '2008-02-03 02:05:00.000000'::TIMESTAMP WITHOUT TIME ZONE " +
+            "observ BETWEEN '2008-02-03 09:00:00.000000'::TIMESTAMP WITHOUT TIME ZONE AND '2008-02-03 12:05:00.000000'::TIMESTAMP WITHOUT TIME ZONE " +
             "ORDER BY observ ASC;";
 
 
