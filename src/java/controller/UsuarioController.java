@@ -28,7 +28,9 @@ import java.util.Map;
         maxFileSize =  1024 * 1024 * 4,
         location = "/tmp"
 )
-@WebServlet(urlPatterns = {
+@WebServlet(
+        name = "UsuarioController",
+        urlPatterns = {
         "/usuario/checkLoginPost",
         "/usuario/create",
         "/usuario/read",

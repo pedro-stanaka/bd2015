@@ -88,6 +88,10 @@ public class DAOFactory implements AutoCloseable {
         return new UsuarioDAO(connection);
     }
 
+    public TaxiDAO getTaxiDAO() {
+        return new TaxiDAO(connection);
+    }
+
     @Override
     public void close() throws SQLException {
         closeConnection();

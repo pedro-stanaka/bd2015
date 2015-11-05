@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.Usuario;
 
-@WebServlet(urlPatterns = {"",
+@WebServlet(name = "LoginController", urlPatterns = {"",
                            "/login",
                            "/logout"})
 public class LoginController extends HttpServlet {

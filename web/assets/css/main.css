@@ -1,0 +1,17 @@
+
+/*###### NAVBAR #######*/
+
+/*Fixing navbar positioning*/
+body {
+    padding-top: 70px;
+}
+
+
+/*###### MAP #######*/
+
+#my-map {
+    min-height: 400px;
+    width: 100%;
+}
+
+
