@@ -33,8 +33,7 @@ function deleteUsers(e) {
 
 function readUser(e) {
     e.preventDefault();
-    $.get($(this).data('href'), function (data) {
-        var usuario = JSON.parse(data);
+    $.get($(this).data('href'), function (usuario) {
         var $modal = $('.modal-visualizar-usuario');
 
         $modal.find('.p_id').html('<strong>ID: </strong>' + usuario.id);

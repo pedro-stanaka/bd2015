@@ -68,7 +68,9 @@ public class UsuarioController extends HttpServlet {
                     Gson gson = new GsonBuilder().setDateFormat("dd/MM/yyyy").create();
                     String json = gson.toJson(usuario);
 
-                    response.getOutputStream().print(json);
+                    response.setCharacterEncoding("UTF-8");
+                    response.setContentType("application/json");
+                    response.getWriter().write(json);
                 } catch (ClassNotFoundException | IOException | SQLException ex) {
                     request.getSession().setAttribute("error", ex.getMessage());
                     response.sendRedirect(request.getContextPath() + "/usuario");
@@ -125,6 +127,7 @@ public class UsuarioController extends HttpServlet {
 
         switch (request.getServletPath()) {
             case "/usuario/create": {
+                request.setCharacterEncoding("UTF-8");
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setSenha(request.getParameter("senha"));
                 usuario.setNome(request.getParameter("nome"));
@@ -155,6 +158,7 @@ public class UsuarioController extends HttpServlet {
                 break;
             }
             case "/usuario/update": {
+                request.setCharacterEncoding("UTF-8");
                 usuario.setId(Integer.parseInt(request.getParameter("id")));
                 usuario.setLogin(request.getParameter("login"));
                 usuario.setNome(request.getParameter("nome"));
