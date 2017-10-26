@@ -58,13 +58,14 @@ CREATE TABLE usuario
   senha character(32) NOT NULL,
   nome character varying(40) NOT NULL,
   nascimento date NOT NULL,
+  avatar varchar(255),
   CONSTRAINT pk_usuario PRIMARY KEY (id),
   CONSTRAINT uq_usuario_login UNIQUE (login)
-)
+);
 ```
 
 
 
 ### Créditos ###
 
-Este projeto foi desenvolvido por Paulo Henrique Oliveira [(@oliveiraph17)](https://github.com/oliveiraph17).
+Este projeto foi inicialmente desenvolvido por Paulo Henrique Oliveira [(@oliveiraph17)](https://github.com/oliveiraph17).
